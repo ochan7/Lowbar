@@ -46,7 +46,7 @@ describe('#values', () => {
         expect(_.values({one: 1, two: 2, three: 3})).to.eql([1,2,3]);
     });
 });
-describe.only('#first', () => {
+describe('#first', () => {
     it('it is a function', () => {
         expect(_.first).to.be.a('function');
     });
@@ -73,3 +73,65 @@ describe.only('#first', () => {
         expect(_.first('hello', 2)).to.eql(['h', 'e']);
     });
 });
+
+describe('#last', () => {
+    it('it is a function', () => {
+        expect(_.last).to.be.a('function');
+    });
+    it('returns undefined if not given an Array or string', () => {
+        expect(_.last()).to.equal(undefined);
+        expect(_.last({})).to.equal(undefined);
+    });
+    it('returns the last character of a string if not given n', () => {
+        expect(_.last('hello')).to.equal('o');
+    });
+    it('returns the last element of an array if not given n', () => {
+        expect(_.last([1,2,3,4])).to.equal(4);
+    });
+    it('returns an array of the last n elements when given n', () => {
+        expect(_.last([1,2,3,4], 2)).to.eql([3,4]);
+        expect(_.last('hello', 2)).to.eql(['l', 'o']);
+    });
+});
+
+describe.only('#each', () => {
+    it('it is a function', () => {
+        expect(_.each).to.be.a('function');
+    });
+    it('returns the list argument passed to it', () => {
+        expect(_.each(5)).to.equal(5);
+        expect(_.each([])).to.eql([]);
+        expect(_.each({})).to.eql({});
+    });
+    it('calls a function the same number of times as the length of the list', () => {
+        let countArray = 0;
+        const incrementCountArray = () => {
+            countArray++;
+        };
+        _.each([1,2,3,4], incrementCountArray);
+        expect(countArray).to.equal(4);
+
+        let countStr = 0;
+        const incrementCountStr = () => {
+            countStr++;
+        };
+        _.each('1234', incrementCountStr);
+        expect(countStr).to.equal(4);
+
+        let countObj = 0;
+        const incrementCountObj = () => {
+            countObj++;
+        };
+        _.each({1:1, 2:2, 3:3, 4:4}, incrementCountObj);
+        expect(countObj).to.equal(4);
+    });
+    it('applies context to the iteratee function if given context argument', () => {
+        let arr = ['a','b','c','d'];
+        const popContext = function() {
+          this.pop();
+        };
+        _.each([1,2,3], popContext, arr);
+        expect(arr.length).to.equal(1);
+    });
+});
+
