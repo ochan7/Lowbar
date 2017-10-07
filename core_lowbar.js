@@ -14,4 +14,14 @@ _.values = (obj) => {
         return values;
     }
 };
+
+_.first = (list, n) => {
+    if (typeof list !== 'object' && typeof list !== 'string') return;
+    if (!n) return list[0];
+    else {
+        if (typeof list === 'string') return list.split('').slice(0, n);
+        else if (Array.isArray(list)) return list.slice(0, n);
+        return [];
+    }
+};
 module.exports = _;
