@@ -94,7 +94,7 @@ describe('#last', () => {
     });
 });
 
-describe.only('#each', () => {
+describe('#each', () => {
     it('it is a function', () => {
         expect(_.each).to.be.a('function');
     });
@@ -132,6 +132,25 @@ describe.only('#each', () => {
         };
         _.each([1,2,3], popContext, arr);
         expect(arr.length).to.equal(1);
+    });
+});
+
+describe.only('#indexOf', () => {
+    it('it is a function', () => {
+        expect(_.indexOf).to.be.a('function');
+    });
+    it('returns -1 when not given an array or string', () => {
+        expect(_.indexOf({0:0}, 0)).to.equal(-1);
+        expect(_.indexOf(5, 5)).to.equal(-1);
+        expect(_.indexOf()).to.equal(-1);
+    });
+    it('returns -1 when not given a target', () => {
+        expect(_.indexOf([1,2,3,4,5])).to.equal(-1);
+        expect(_.indexOf([])).to.equal(-1);
+    });
+    it('returns the index of an item if given a valid array and target', () => {
+        expect(_.indexOf([1,2,3,4,5], 1)).to.equal(0);
+        expect(_.indexOf([1,2,3,4,5], 1, true)).to.equal(0);
     });
 });
 
