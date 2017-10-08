@@ -135,7 +135,7 @@ describe('#each', () => {
     });
 });
 
-describe.only('#indexOf', () => {
+describe('#indexOf', () => {
     it('it is a function', () => {
         expect(_.indexOf).to.be.a('function');
     });
@@ -151,6 +151,40 @@ describe.only('#indexOf', () => {
     it('returns the index of an item if given a valid array and target', () => {
         expect(_.indexOf([1,2,3,4,5], 1)).to.equal(0);
         expect(_.indexOf([1,2,3,4,5], 1, true)).to.equal(0);
+    });
+    it('returns -1 when using binary search on a nonsorted list', () => {
+        expect(_.indexOf([5,6,3,1,9,8,5,2], 2, true)).to.equal(-1);
+    });
+});
+
+describe.only('#filter', () => {
+    it('it is a function', () => {
+        expect(_.filter).to.be.a('function');
+    });
+    it('returns an empty array when not given a valid argument', () => {
+        expect(_.filter()).to.eql([]);
+        expect(_.filter(1)).to.eql([]);
+        expect(_.filter('')).to.eql([]);
+    });
+    it('returns the list if not given a predicate', () => {
+        expect(_.filter('hello')).to.eql(['h', 'e', 'l', 'l', 'o']);
+        expect(_.filter({0:'a', 1: 'b', 2: 'c', 3: 'd'})).to.eql(['a', 'b', 'c', 'd']);
+    });
+    it('returns a filtered array when passed a predicate', () => {
+        const notAVowel = (letter) => {
+            const vowels = 'aeiou';
+            return !vowels.includes(letter);
+        };
+        expect(_.filter(['a', 'e', 'c', 'd', 'b', 'i', 'o', 'p'], notAVowel)).to.eql(['c', 'd', 'b', 'p']);
+        expect(_.filter({0: 'a', 1: 'e', 2: 'c', 3: 'd', 5: 'b', 6: 'p' }, notAVowel)).to.eql(['c', 'd', 'b', 'p']);
+        expect(_.filter('aeioucdbp', notAVowel)).to.eql(['c', 'd', 'b', 'p']);
+    });
+    it('can apply context to the predicate function', () => {
+        const lessThanThis = function (item) {
+            return item < this;
+        };
+        let num = 5; 
+        expect(_.filter([1,2,3,4,5,6,7,8,9,10], lessThanThis, num)).to.eql([1,2,3,4]);
     });
 });
 

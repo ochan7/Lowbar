@@ -46,14 +46,12 @@ _.each = (list, iteratee, context = null) => {
 _.indexOf = (list, target, isSorted = false) => {
     let result = -1;
     if (!Array.isArray(list) && typeof list !== 'string') return result;
-
     if (!isSorted) {
         for (let i = 0; i < list.length; i++) {
             if (list[i] === target) return i;
         }
         return result;
     }
-
     if (isSorted) {
         let startIndex = 0,
             stopIndex = list.length - 1,
@@ -71,6 +69,18 @@ _.indexOf = (list, target, isSorted = false) => {
         }
         return result;
     }
+};
+
+_.filter = (list, predicate, context = null) => {
+    let result = [];
+    if (!list || typeof list === 'number') return result;
+    _.each(list, function (item, index) {
+        if (predicate) {
+            if (predicate.call(context, item, index, list)) result.push(item);
+        }
+        else result.push(item);
+    });
+    return result;
 };
 
 module.exports = _;
