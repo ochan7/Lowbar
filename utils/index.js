@@ -5,5 +5,11 @@ module.exports = {
     },
     isEven: (num) => {
         return num % 2 !== 1;
+    },
+    lessThanThis: function (item) {
+        return item < this;
+    },
+    equalToThis: function (item, i) {
+        return item === this[i];
     }
 };

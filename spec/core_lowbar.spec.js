@@ -1,7 +1,7 @@
 const path = require('path');
 const expect = require('chai').expect;
 const _  = require(path.join(__dirname, '..', './core_lowbar.js'));
-const {notAVowel, isEven}  = require(path.join(__dirname, '..', './utils'));
+const {notAVowel, isEven, lessThanThis, equalToThis}  = require(path.join(__dirname, '..', './utils'));
 
 describe('_', () => {
     'use strict';
@@ -179,9 +179,6 @@ describe('#filter', () => {
         expect(_.filter([1,2,3,4,5,6], isEven)).to.eql([2,4,6]);
     });
     it('can apply context to the predicate function', () => {
-        const lessThanThis = function (item) {
-            return item < this;
-        };
         let num = 5; 
         expect(_.filter([1,2,3,4,5,6,7,8,9,10], lessThanThis, num)).to.eql([1,2,3,4]);
     });
@@ -191,8 +188,11 @@ describe('#reject', () => {
     it('it is a function', () => {
         expect(_.reject).to.be.a('function');
     });
-    it('returns an empty array when given not given a predicate', () => {
+    it('returns an empty array when not given a list', () => {
         expect(_.reject()).to.eql([]);
+        expect(_.reject(543)).to.eql([]);
+    });
+    it('returns an empty array when given not given a predicate', () => {
         expect(_.reject('hello')).to.eql([]);
         expect(_.reject('hello')).to.eql([]);
         expect(_.reject([1,2,3,4,5])).to.eql([]);
@@ -203,5 +203,10 @@ describe('#reject', () => {
         expect(_.reject('bcdfg', notAVowel)).to.eql([]);
         expect(_.reject([1,2,3,4], isEven)).to.eql([1,3]);
         expect(_.reject({a:1,b:2,c:3,d:4}, isEven)).to.eql([1,3]);
+    });
+    it('can apply context to the function as the third argument', () => {
+        let contextArr = ['a', 'b', 'c', 'd', 'e'];
+        expect(_.reject([2,4,5,6,7,8,9], lessThanThis, 5)).to.eql([5,6,7,8,9]);
+        expect(_.reject('adcfe', equalToThis, contextArr)).to.eql(['d', 'f']);
     });
 });
