@@ -82,5 +82,17 @@ _.filter = (list, predicate, context = null) => {
     });
     return result;
 };
+ _.reject = (list, predicate, context = null) => {
 
+    function negate (predicateFunc) {
+        return function () {
+            return !predicateFunc.apply(this, arguments);
+        };
+    }
+    if (predicate) {
+
+        return _.filter.call(null, list, negate(predicate), context);
+    }
+    return [];
+ };
 module.exports = _;

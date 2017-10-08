@@ -1,6 +1,7 @@
 const path = require('path');
 const expect = require('chai').expect;
 const _  = require(path.join(__dirname, '..', './core_lowbar.js'));
+const {notAVowel, isEven}  = require(path.join(__dirname, '..', './utils'));
 
 describe('_', () => {
     'use strict';
@@ -157,7 +158,7 @@ describe('#indexOf', () => {
     });
 });
 
-describe.only('#filter', () => {
+describe('#filter', () => {
     it('it is a function', () => {
         expect(_.filter).to.be.a('function');
     });
@@ -165,19 +166,17 @@ describe.only('#filter', () => {
         expect(_.filter()).to.eql([]);
         expect(_.filter(1)).to.eql([]);
         expect(_.filter('')).to.eql([]);
+        expect(_.filter({})).to.eql([]);
     });
     it('returns the list if not given a predicate', () => {
         expect(_.filter('hello')).to.eql(['h', 'e', 'l', 'l', 'o']);
         expect(_.filter({0:'a', 1: 'b', 2: 'c', 3: 'd'})).to.eql(['a', 'b', 'c', 'd']);
     });
     it('returns a filtered array when passed a predicate', () => {
-        const notAVowel = (letter) => {
-            const vowels = 'aeiou';
-            return !vowels.includes(letter);
-        };
         expect(_.filter(['a', 'e', 'c', 'd', 'b', 'i', 'o', 'p'], notAVowel)).to.eql(['c', 'd', 'b', 'p']);
         expect(_.filter({0: 'a', 1: 'e', 2: 'c', 3: 'd', 5: 'b', 6: 'p' }, notAVowel)).to.eql(['c', 'd', 'b', 'p']);
         expect(_.filter('aeioucdbp', notAVowel)).to.eql(['c', 'd', 'b', 'p']);
+        expect(_.filter([1,2,3,4,5,6], isEven)).to.eql([2,4,6]);
     });
     it('can apply context to the predicate function', () => {
         const lessThanThis = function (item) {
@@ -188,3 +187,21 @@ describe.only('#filter', () => {
     });
 });
 
+describe('#reject', () => {
+    it('it is a function', () => {
+        expect(_.reject).to.be.a('function');
+    });
+    it('returns an empty array when given not given a predicate', () => {
+        expect(_.reject()).to.eql([]);
+        expect(_.reject('hello')).to.eql([]);
+        expect(_.reject('hello')).to.eql([]);
+        expect(_.reject([1,2,3,4,5])).to.eql([]);
+        expect(_.reject({1:'a',2:'b',3:'c',4:'d',5:'e'})).to.eql([]);
+    });
+    it('returns a filtered array containing rejected values when passed a list and predicate', () => {
+         expect(_.reject('aeioubcd', notAVowel)).to.eql(['a', 'e', 'i', 'o', 'u']);
+        expect(_.reject('bcdfg', notAVowel)).to.eql([]);
+        expect(_.reject([1,2,3,4], isEven)).to.eql([1,3]);
+        expect(_.reject({a:1,b:2,c:3,d:4}, isEven)).to.eql([1,3]);
+    });
+});
