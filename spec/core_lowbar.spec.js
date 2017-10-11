@@ -188,6 +188,18 @@ describe.only( '#negate', () => {
     it('it is a function', () => {
         expect(_.negate).to.be.a('function');
     });
+    it('returns the function itself if not passed a function as an argument', () => {
+        console.log(_.negate());
+        expect(_.negate()).to.be.a('function');
+    });
+    it('negates the result of a function passed to it', () => {
+        let isFalsy = _.negate(Boolean);
+        expect(isFalsy(false)).to.be.true;
+        expect(isFalsy(true)).to.be.false;
+        let isOdd = _.negate(isEven);
+        expect(isOdd(1)).to.be.true;
+    });
+
 });
 describe('#reject', () => {
     it('it is a function', () => {
