@@ -34,7 +34,7 @@ _.last = (list, n) => {
     }
 };
 
-_.each = (list, iteratee, context = null) => {
+_.each = (list, iteratee, context = this) => {
     let newList = _.values(list);
     if (typeof list === 'string') newList = list;
     for (let i = 0; i < newList.length; i++) {
@@ -71,7 +71,7 @@ _.indexOf = (list, target, isSorted = false) => {
     }
 };
 
-_.filter = (list, predicate, context = null) => {
+_.filter = (list, predicate, context = this) => {
     let result = [];
     if (!list || typeof list === 'number') return result;
     _.each(list, function (item, index) {
@@ -82,15 +82,31 @@ _.filter = (list, predicate, context = null) => {
     });
     return result;
 };
- _.reject = (list, predicate, context = null) => {
-    function negate (predicateFunc) {
-        return function () {
-            return !predicateFunc.apply(this, arguments);
-        };
-    }
+
+
+_.negate = (func) => {
+    return function () {
+        return !func.apply(this, arguments);
+    };
+};
+
+ _.reject = (list, predicate, context = this) => {
+
     if (predicate) {
-        return _.filter.call(null, list, negate(predicate), context);
+        return _.filter.call(null, list, _.negate(predicate), context);
     }
     return [];
  };
+
+ // _.uniq
+ // will use filter and indexof
+ // pass indexof as a predicate to filter
+ _.uniq = (array, isSorted = false) => {
+    const result = [];
+     _.each.call(null, array, function(item) {
+        if (_.indexOf.call(result, this, item, isSorted) === -1) this.push(item);
+    }, result);
+    return result;
+ };
+
 module.exports = _;

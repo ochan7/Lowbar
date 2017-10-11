@@ -184,6 +184,11 @@ describe('#filter', () => {
     });
 });
 
+describe.only( '#negate', () => {
+    it('it is a function', () => {
+        expect(_.negate).to.be.a('function');
+    });
+});
 describe('#reject', () => {
     it('it is a function', () => {
         expect(_.reject).to.be.a('function');
@@ -210,3 +215,27 @@ describe('#reject', () => {
         expect(_.reject('adcfe', equalToThis, contextArr)).to.eql(['d', 'f']);
     });
 });
+
+describe('#uniq', () => {
+    it('it is a function', () => {
+        expect(_.uniq).to.be.a('function');
+    });
+    it('returns an empty array when not given a string or array', () => {
+        expect(_.uniq()).to.eql([]);
+        expect(_.uniq(554545)).to.eql([]);
+        expect(_.uniq(true)).to.eql([]);
+    });
+    it('returns an array of 1 value when given a list of the same the value repeated', () => {
+        expect(_.uniq('aaaaaaaaa')).to.eql(['a']);
+        expect(_.uniq(['a','a','a'])).to.eql(['a']);
+        expect(_.uniq([1,1,1,1,1,1])).to.eql([1]);
+    });
+    it('returns an array of only unique values when passed a list with repeats', () => {
+        expect(_.uniq('aaabbbcccdddeeefff')).to.eql(['a', 'b', 'c', 'd', 'e', 'f']);
+        expect(_.uniq(['a', 'a', 'b', 'b', 'c' ,'c', 'd', 'e', 'e', 'e', 'f', 'f'])).to.eql(['a', 'b', 'c', 'd', 'e', 'f']);
+    });
+    it('returns an array of unique values based on the iteratee argument' , () => {
+
+    });
+});
+
