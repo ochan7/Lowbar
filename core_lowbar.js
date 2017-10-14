@@ -99,9 +99,6 @@ _.negate = (func) => {
     return [];
  };
 
- // _.uniq
- // will use filter and indexof
- // pass indexof as a predicate to filter
  _.uniq = (array, isSorted = false, iteratee = _.identity) => {
    if (typeof isSorted === 'function') {iteratee = isSorted; isSorted = false;}
     const result = [], checkIteratee = [];
@@ -113,4 +110,10 @@ _.negate = (func) => {
     return result;
  };
 
+ _.map = (list, iteratee = _.identity, context = this) => {
+     const result = [];
+     iteratee = iteratee.bind(context);
+     _.each(list, item => result.push(iteratee(item)));
+     return result;
+ };
 module.exports = _;

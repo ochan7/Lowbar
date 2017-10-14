@@ -96,6 +96,7 @@ describe('#last', () => {
 });
 
 describe('#each', () => {
+    'use strict';
     it('it is a function', () => {
         expect(_.each).to.be.a('function');
     });
@@ -137,6 +138,7 @@ describe('#each', () => {
 });
 
 describe('#indexOf', () => {
+    'use strict';
     it('it is a function', () => {
         expect(_.indexOf).to.be.a('function');
     });
@@ -159,6 +161,7 @@ describe('#indexOf', () => {
 });
 
 describe('#filter', () => {
+    'use strict';
     it('it is a function', () => {
         expect(_.filter).to.be.a('function');
     });
@@ -185,6 +188,7 @@ describe('#filter', () => {
 });
 
 describe( '#negate', () => {
+    'use strict';
     it('it is a function', () => {
         expect(_.negate).to.be.a('function');
     });
@@ -201,6 +205,7 @@ describe( '#negate', () => {
 
 });
 describe('#reject', () => {
+    'use strict';
     it('it is a function', () => {
         expect(_.reject).to.be.a('function');
     });
@@ -227,7 +232,8 @@ describe('#reject', () => {
     });
 });
 
-describe.only('#uniq', () => {
+describe('#uniq', () => {
+    'use strict';
     it('it is a function', () => {
         expect(_.uniq).to.be.a('function');
     });
@@ -248,6 +254,34 @@ describe.only('#uniq', () => {
     it('returns an array of unique values based on iteratee argument' , () => {
         expect(_.uniq([2.1, 2.3, 2.4, 3.1, 3.2], false, Math.floor )).to.eql([2.1, 3.1]);
         expect(_.uniq([2.1, 2.3, 2.4, 3.1, 3.2],  Math.floor )).to.eql([2.1, 3.1]);
+    });
+});
+
+describe.only('#map', () => {
+    'use strict';
+    it('it is a function', () => {
+        expect(_.map).to.be.a('function');
+    });
+    it('returns an array', () => {
+        expect(_.map()).to.be.a('array');
+    });
+    it('returns an empty array when not given a valid list', () => {
+        expect(_.map(45)).to.eql([]);
+        expect(_.map()).to.eql([]);
+    });
+    it('returns the list if not given a function', () => {
+        expect(_.map('abc')).to.eql(['a', 'b', 'c']);
+        expect(_.map(['a', 'b', 'c'])).to.eql(['a', 'b', 'c']);
+        expect(_.map([1,2,3,4])).to.eql([1,2,3,4]);
+        expect(_.map({a: 1, b: 2, c: 3})).to.eql([1,2,3]);
+    });
+    it('returns a mapped version of the list', () => {
+        expect(_.map('abc', letter => letter.toUpperCase())).to.eql(['A', 'B', 'C']);
+        expect(_.map([1,2,3], num => num * num)).to.eql([1,4,9]);
+        expect(_.map({0:[1,2,3],1: [4,5,6],2:[7,8,9]}, _.first)).to.eql([1,4,7]);
+    });
+    it('returns a mapped verion of the list with a function using context', () => {
+        expect(_.map([1,2,3], function(num) {return num * this;}, 5)).to.eql([5,10,15]);
     });
 });
 
