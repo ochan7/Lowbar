@@ -285,7 +285,7 @@ describe('#map', () => {
     });
 });
 
-describe.only('#contains', () => {
+describe('#contains', () => {
     it('it is a function', () => {
         expect(_.contains).to.be.a('function');
     });
@@ -311,6 +311,26 @@ describe.only('#contains', () => {
         expect(_.contains('abc', 'a', 0)).to.equal(true);
         expect(_.contains('abc', 'a', 1)).to.equal(false);
         expect(_.contains('abc', 'b', 2)).to.equal(false);
+    });
+});
+
+describe.only('#pluck', () => {
+    it('it is a function', () => {
+        expect(_.pluck).to.be.a('function');
+    });
+    it('returns an empty array if not given a valid list', () => {
+        expect(_.pluck(5)).to.eql([]);
+        expect(_.pluck(null)).to.eql([]);
+        expect(_.pluck({})).to.eql([]);
+    });
+    it('returns an array of matching values for the property name', () => {
+        expect(_.pluck([{name: 'olie'}, {name: 'chan'}], 'name')).to.eql(['olie', 'chan']);
+        expect(_.pluck(['a', 'b', 'c', 'd'], 0)).to.eql(['a','b','c','d']);
+        expect(_.pluck('abc',0)).to.eql(['a', 'b', 'c']);
+
+        const stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+        expect(_.pluck(stooges, 'name')).to.eql(['moe', 'larry', 'curly']);
+        expect(_.pluck(['a', 'b', 'c', 'd'], 0)).to.eql(['a', 'b', 'c', 'd']);
     });
 });
 

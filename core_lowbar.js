@@ -123,4 +123,8 @@ _.negate = (func) => {
      typeof list === 'string' ? validList = list : validList = [];
      return _.indexOf(validList.slice(fromIndex), target) !== -1;
  };
+
+ _.pluck = (list, propertyName) => {
+    return _.map(list, obj => obj[propertyName]);
+ };
 module.exports = _;
