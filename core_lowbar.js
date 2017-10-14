@@ -85,6 +85,7 @@ _.filter = (list, predicate, context = this) => {
 
 
 _.negate = (func) => {
+    if (typeof func !== 'function') return _.negate;
     return function () {
         return !func.apply(this, arguments);
     };
@@ -101,11 +102,14 @@ _.negate = (func) => {
  // _.uniq
  // will use filter and indexof
  // pass indexof as a predicate to filter
- _.uniq = (array, isSorted = false) => {
-    const result = [];
+ _.uniq = (array, isSorted = false, iteratee = _.identity) => {
+   if (typeof isSorted === 'function') {iteratee = isSorted; isSorted = false;}
+    const result = [], checkIteratee = [];
      _.each.call(null, array, function(item) {
-        if (_.indexOf.call(result, this, item, isSorted) === -1) this.push(item);
-    }, result);
+        if (_.indexOf.call(checkIteratee, this, iteratee(item), isSorted) === -1) {
+            this.push(iteratee(item));
+            result.push(item);}
+    }, checkIteratee);
     return result;
  };
 

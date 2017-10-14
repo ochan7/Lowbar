@@ -184,12 +184,11 @@ describe('#filter', () => {
     });
 });
 
-describe.only( '#negate', () => {
+describe( '#negate', () => {
     it('it is a function', () => {
         expect(_.negate).to.be.a('function');
     });
     it('returns the function itself if not passed a function as an argument', () => {
-        console.log(_.negate());
         expect(_.negate()).to.be.a('function');
     });
     it('negates the result of a function passed to it', () => {
@@ -228,7 +227,7 @@ describe('#reject', () => {
     });
 });
 
-describe('#uniq', () => {
+describe.only('#uniq', () => {
     it('it is a function', () => {
         expect(_.uniq).to.be.a('function');
     });
@@ -246,8 +245,9 @@ describe('#uniq', () => {
         expect(_.uniq('aaabbbcccdddeeefff')).to.eql(['a', 'b', 'c', 'd', 'e', 'f']);
         expect(_.uniq(['a', 'a', 'b', 'b', 'c' ,'c', 'd', 'e', 'e', 'e', 'f', 'f'])).to.eql(['a', 'b', 'c', 'd', 'e', 'f']);
     });
-    it('returns an array of unique values based on the iteratee argument' , () => {
-
+    it('returns an array of unique values based on iteratee argument' , () => {
+        expect(_.uniq([2.1, 2.3, 2.4, 3.1, 3.2], false, Math.floor )).to.eql([2.1, 3.1]);
+        expect(_.uniq([2.1, 2.3, 2.4, 3.1, 3.2],  Math.floor )).to.eql([2.1, 3.1]);
     });
 });
 
