@@ -116,4 +116,11 @@ _.negate = (func) => {
      _.each(list, item => result.push(iteratee(item)));
      return result;
  };
+
+ _.contains = (list, target, fromIndex = 0) => {
+     let validList;
+     typeof list === 'object' ? validList = _.values(list) :
+     typeof list === 'string' ? validList = list: validList = [];
+     return _.indexOf(validList.slice(fromIndex), target) !== -1;
+ };
 module.exports = _;

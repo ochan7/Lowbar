@@ -257,7 +257,7 @@ describe('#uniq', () => {
     });
 });
 
-describe.only('#map', () => {
+describe('#map', () => {
     'use strict';
     it('it is a function', () => {
         expect(_.map).to.be.a('function');
@@ -282,6 +282,35 @@ describe.only('#map', () => {
     });
     it('returns a mapped verion of the list with a function using context', () => {
         expect(_.map([1,2,3], function(num) {return num * this;}, 5)).to.eql([5,10,15]);
+    });
+});
+
+describe.only('#contains', () => {
+    it('it is a function', () => {
+        expect(_.contains).to.be.a('function');
+    });
+    it('returns a boolean', () => {
+        expect(_.contains()).to.be.a('boolean');
+        expect(_.contains('hello')).to.be.a('boolean');
+        expect(_.contains([])).to.be.a('boolean');
+    });
+    it('returns false if not given a valid list', () => {
+        expect(_.contains(1,1)).to.equal(false);
+        expect(_.contains(true)).to.equal(false);
+    });
+    it('returns false if not given a target value', () => {
+        expect(_.contains('abc')).to.equal(false);
+        expect(_.contains([1,2,3])).to.equal(false);
+    });
+    it('returns true if the target value is in the list', () => {
+        expect(_.contains('abc', 'a')).to.equal(true);
+        expect(_.contains([1,2,3,4], 3)).to.equal(true);
+        expect(_.contains({1:'a'}, 'a')).to.equal(true);
+    });
+    it('returns boolean if value is contained in the list from a certain index', () => {
+        expect(_.contains('abc', 'a', 0)).to.equal(true);
+        expect(_.contains('abc', 'a', 1)).to.equal(false);
+        expect(_.contains('abc', 'b', 2)).to.equal(false);
     });
 });
 
