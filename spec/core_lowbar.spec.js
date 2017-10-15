@@ -372,7 +372,7 @@ describe('#reduce', () => {
     });
 });
 
-describe.only('#every', () => {
+describe('#every', () => {
     it('it is a function', () => {
         expect(_.every).to.be.a('function');
     });
@@ -390,5 +390,41 @@ describe.only('#every', () => {
     it('can apply context to the predicate', () => {
         expect(_.every([1,2,3,4,5], lessThanThis, 9)).to.equal(true);
         expect(_.every([1,2,3,4,5], lessThanThis, 1)).to.equal(false);
+        expect(_.every({0:1,1:2,2:3,3:4,4:5}, lessThanThis, 1)).to.equal(false);
+    });
+});
+
+describe.only('#some', () => {
+    it('it is a function', () => {
+        expect(_.some).to.be.a('function');  
+    });
+    it('returns false when given no arguments', () => {
+        expect(_.some()).to.equal(false);
+    });
+    it('returns false when given an invalid list', () => {
+        expect(_.some('')).to.equal(false);
+        expect(_.some([])).to.equal(false);
+        expect(_.some({})).to.equal(false);
+        expect(_.some(5)).to.equal(false);
+    });
+    it('returns true if given a non empty list and no predicate', () => {
+        expect(_.some('a')).to.equal(true);
+        expect(_.some(['a'])).to.equal(true);
+        expect(_.some({0:'a'})).to.equal(true);
+    });
+    it('returns true if given a list and an item that passes the predicate', () => {
+        expect(_.some('abc', letter => letter === 'c')).to.equal(true);
+        expect(_.some([1,2,3,5], num => num / 5 === 1)).to.equal(true);
+    });
+    it('returns false if no element in the list passes the predicate', () => {
+        expect(_.some(['a', 'b', 'c', 'd', 'e'], letter => letter === 'f')).to.equal(false);
+        expect(_.some([1,2,3,4,5,6,7], num => num === 10)).to.equal(false);
+        expect(_.some({0:1, 1:2}, num => num === 10)).to.equal(false);
+    });
+    it('can apply context to the function', () => {
+        expect(_.some([1,2,3,4,5], lessThanThis, -1)).to.equal(false);
+        expect(_.some([1,2,3,4,5], lessThanThis, 2)).to.equal(true);
+        expect(_.some({a:1, b:2}, lessThanThis, 2)).to.equal(true);
+        expect(_.some({a:1, b:2}, lessThanThis, 1)).to.equal(false);
     });
 });

@@ -124,7 +124,7 @@ _.map = (list, iteratee = _.identity, context = this) => {
 _.contains = (list, target, fromIndex = 0) => {
     let validList;
     typeof list === 'object' ? validList = _.values(list) :
-        typeof list === 'string' ? validList = list : validList = [];
+    typeof list === 'string' ? validList = list : validList = [];
     return _.indexOf(validList.slice(fromIndex), target) !== -1;
 };
 
@@ -147,12 +147,23 @@ _.reduce = (list, iteratee, acc, context = this) => {
 };
 
 _.every = (list, predicate, context = this) => {
-    let flag = true;
+    let flag = true, newList = list;
     if (typeof predicate !== 'function') return flag;
-    predicate = predicate.bind(context);
-     _.each(list, function(item) {
-        if (flag) flag = predicate(item);
-    });
+    if (typeof list === 'object') newList = _.values(list);
+    for (let i = 0; i < newList.length; i++) {
+        if (!flag) return flag;
+        flag = predicate.call(context,newList[i]);
+    }
     return flag;
 };
+
+_.some = (list, predicate = _.identity, context = this) => {
+    let newList = list;
+    predicate = predicate.bind(context);
+    if (typeof list !== 'string' ) newList = _.values(list);
+    for (let i = 0; i < newList.length; i++) {
+      if (predicate(newList[i]) != false) return true;
+    }
+    return false;
+};  
 module.exports = _;
