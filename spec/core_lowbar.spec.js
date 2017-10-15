@@ -334,7 +334,7 @@ describe('#pluck', () => {
     });
 });
 
-describe.only('#reduce', () => {
+describe('#reduce', () => {
     it('it is a function', () => {
         expect(_.reduce).to.be.a('function');
     });
@@ -372,3 +372,23 @@ describe.only('#reduce', () => {
     });
 });
 
+describe.only('#every', () => {
+    it('it is a function', () => {
+        expect(_.every).to.be.a('function');
+    });
+    it('returns true if not given a valid list', () => {
+        expect(_.every()).to.equal(true);
+        expect(_.every(5)).to.equal(true);
+        expect(_.every('hello')).to.equal(true);
+        expect(_.every(['hello'])).to.equal(true);
+        expect(_.every({0:'hello'})).to.equal(true);
+    });
+    it('returns false if an item in an array does not pass the predicate', () => {
+        expect(_.every([0,2,4,6,1,2,4,6],isEven)).to.equal(false);
+         expect(_.every('bcdfagh',notAVowel)).to.equal(false);
+    });
+    it('can apply context to the predicate', () => {
+        expect(_.every([1,2,3,4,5], lessThanThis, 9)).to.equal(true);
+        expect(_.every([1,2,3,4,5], lessThanThis, 1)).to.equal(false);
+    });
+});
