@@ -23,5 +23,9 @@ module.exports = {
         if (acc[item] === undefined) acc[item] = 0;
         acc[item] += 1;
         return acc;
-    }
+    },
+    makeUpperCase: (acc, letter) => {
+        acc.push(letter.toUpperCase());
+        return acc;
+    },
 };

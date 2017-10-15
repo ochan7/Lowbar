@@ -127,4 +127,15 @@ _.negate = (func) => {
  _.pluck = (list, propertyName) => {
     return _.map(list, obj => obj[propertyName]);
  };
+
+ _.reduce = (list, iteratee , acc , context = this) => {
+     let newList = list;
+   if (typeof list === 'object') newList = _.values(list);
+   if (typeof iteratee !== 'function') return newList[0];
+   if (acc === undefined) {newList = list.slice(1); acc = list[0];}
+   _.each(newList, (item, index) => {
+       acc = iteratee.call(context,acc, item, index);
+   });
+   return acc;
+ };
 module.exports = _;

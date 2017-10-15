@@ -1,7 +1,7 @@
 const path = require('path');
 const expect = require('chai').expect;
 const _  = require(path.join(__dirname, '..', './core_lowbar.js'));
-const {notAVowel, isEven, lessThanThis, equalToThis}  = require(path.join(__dirname, '..', './utils'));
+const {notAVowel, isEven, lessThanThis, equalToThis, sum, makeSquares, countNames, makeUpperCase}  = require(path.join(__dirname, '..', './utils'));
 
 describe('_', () => {
     'use strict';
@@ -314,7 +314,7 @@ describe('#contains', () => {
     });
 });
 
-describe.only('#pluck', () => {
+describe('#pluck', () => {
     it('it is a function', () => {
         expect(_.pluck).to.be.a('function');
     });
@@ -331,6 +331,44 @@ describe.only('#pluck', () => {
         const stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
         expect(_.pluck(stooges, 'name')).to.eql(['moe', 'larry', 'curly']);
         expect(_.pluck(['a', 'b', 'c', 'd'], 0)).to.eql(['a', 'b', 'c', 'd']);
+    });
+});
+
+describe.only('#reduce', () => {
+    it('it is a function', () => {
+        expect(_.reduce).to.be.a('function');
+    });
+    it('returns undefined when not given a valid list', () => {
+        expect(_.reduce('')).to.equal(undefined);
+        expect(_.reduce(5)).to.equal(undefined);
+        expect(_.reduce([])).to.equal(undefined);
+        expect(_.reduce({})).to.equal(undefined);
+    });
+    it('returns the single element from a list if given a list of length 1', () => {
+        expect(_.reduce('a')).to.equal('a');
+        expect(_.reduce({a:'a'})).to.equal('a');
+        expect(_.reduce(['a'])).to.equal('a');
+    });
+    it('can reduce a list to a single value', () => {
+        expect(_.reduce([1,2,3], sum, 0)).to.equal(6);
+        expect(_.reduce([1,2,3], sum)).to.equal(6);
+    });
+    it('returns a mapped version of the list', () => {
+        expect(_.reduce([1,2,3], makeSquares, [])).to.eql([1,4,9]);   
+        expect(_.reduce( [[0, 1], [2, 3], [4, 5]], ( acc, cur ) => acc.concat(cur),
+        [])).to.eql([0,1,2,3,4,5]);  
+        expect(_.reduce('abc', makeUpperCase, [])).to.eql(['A', 'B', 'C']);
+        expect(_.reduce({0:[0, 1], 1:[2, 3], 2:[4, 5]}, ( acc, cur ) => acc.concat(cur),
+        [])).to.eql([0,1,2,3,4,5]);  
+    });
+    it('returns an object tallying items in an array', () => {
+        expect(_.reduce(['alice', 'ben', 'alice', 'ben', 'frank', 'alex', 'olie', 'olie'], countNames, {})).to.eql({alice:2, ben: 2, frank: 1,alex: 1, olie: 2 });
+    });
+    it('can use context in the iteratee', () => {
+        expect(_.reduce('abcdefghi', function(acc, letter) {
+            if (!this[letter]) acc.push(letter);
+            return acc;
+        }, [], {a: true, b: true, c: true, d: true})).to.eql(['e', 'f' , 'g', 'h', 'i']);
     });
 });
 
