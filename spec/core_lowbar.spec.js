@@ -182,8 +182,7 @@ describe('#filter', () => {
         expect(_.filter([1,2,3,4,5,6], isEven)).to.eql([2,4,6]);
     });
     it('can apply context to the predicate function', () => {
-        let num = 5; 
-        expect(_.filter([1,2,3,4,5,6,7,8,9,10], lessThanThis, num)).to.eql([1,2,3,4]);
+        expect(_.filter([1,2,3,4,5,6,7,8,9,10], lessThanThis, 5)).to.eql([1,2,3,4]);
     });
 });
 
@@ -394,7 +393,7 @@ describe('#every', () => {
     });
 });
 
-describe.only('#some', () => {
+describe('#some', () => {
     it('it is a function', () => {
         expect(_.some).to.be.a('function');  
     });
@@ -426,5 +425,52 @@ describe.only('#some', () => {
         expect(_.some([1,2,3,4,5], lessThanThis, 2)).to.equal(true);
         expect(_.some({a:1, b:2}, lessThanThis, 2)).to.equal(true);
         expect(_.some({a:1, b:2}, lessThanThis, 1)).to.equal(false);
+    });
+});
+
+describe('#extends', () => {
+    it('it is a function', () => {
+        expect(_.extends).to.be.a('function');
+    });
+    it('returns the destination if only given destination', () => {
+        const str = 'hello', arr = ['hello'], obj = {0:'hello'}, num = 5, undef = undefined;
+        expect(_.extends(undef)).to.equal(undef);
+        expect(_.extends(str)).to.equal(str);
+        expect(_.extends(arr)).to.equal(arr);
+        expect(_.extends(obj)).to.equal(obj);
+        expect(_.extends(num)).to.equal(num);
+    });
+    it('returns an object of the sources merged into the destination', () => {
+        expect(_.extends({name:'olie'}, {age: 21})).to.eql({name: 'olie', age: 21});
+        expect(_.extends({name:'olie', age: 21}, {age: 22}, {pets: 'dog'})).to.eql({name: 'olie', age: 22, pets: 'dog'});
+    });
+    it('does not merge non object sources into the destination', () => {
+        expect(_.extends({name: 'olie'},{age: 20}, 5)).to.eql({name: 'olie', age: 20}); 
+        expect(_.extends({name: 'olie'},{age: 20}, [5])).to.eql({0: 5,name: 'olie', age: 20}); 
+    });
+    it('returns an object with containing nested objects when the sources are nested', () => {
+        expect(_.extends({name: 'olie'}, {favourites: {food: 'pizza'}})).to.eql({name: 'olie', favourites: {food: 'pizza'}});
+    });
+});
+
+describe('#defaults', () => {
+    it('it is a function', () => {
+        expect(_.defaults).to.be.a('function');
+    });
+    it('returns the object if not given any sources', () => {
+        expect(_.defaults()).to.equal(undefined);
+        expect(_.defaults(5)).to.equal(5);
+        expect(_.defaults('hello')).to.equal('hello');
+        expect(_.defaults(['hello'])).to.eql(['hello']);
+        expect(_.defaults({})).to.eql({});
+    });
+    it('returns an object with only new keys of sources added', () => {
+        expect(_.defaults({name: 'olie'}, {age: 21})).to.eql({name: 'olie', age: 21});
+        expect(_.defaults({name: 'olie'}, {age: 21}, {language: 'english'})).to.eql({name: 'olie', age: 21, language: 'english'});
+    });
+    it('returns an object with only the first new key from sources added', () => {
+        expect(_.defaults({name: 'olie'}, {age: 21}, {age: 20})).to.eql({name: 'olie', age: 21});
+        expect(_.defaults({name: 'olie'}, {name: 'bruce'})).to.eql({name: 'olie'});
+        expect(_.defaults({name: 'olie'}, {name: 'bruce'}, [0,1,2])).to.eql({name: 'olie',0:0, 1:1, 2:2});
     });
 });

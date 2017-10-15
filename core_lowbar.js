@@ -165,5 +165,23 @@ _.some = (list, predicate = _.identity, context = this) => {
       if (predicate(newList[i]) != false) return true;
     }
     return false;
-};  
+};
+
+_.extends = (destination, ...sources) => {
+   return _.reduce(sources, (acc, item) => {
+    for (let key in item) {
+        acc[key] = item[key];
+    }
+    return acc;
+   }, destination);
+};
+
+_.defaults = (object, ...sources) => {
+    return _.reduce(sources, (acc, item) => {
+        for (let key in item) {
+            if (acc[key] === undefined) acc[key] = item[key];
+        }
+        return acc;
+    }, object);
+};
 module.exports = _;
