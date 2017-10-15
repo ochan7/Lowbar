@@ -11,5 +11,17 @@ module.exports = {
     },
     equalToThis: function (item, i) {
         return item === this[i];
+    },
+    sum: (acc, item) => {
+        return acc + item;
+    },
+    makeSquares: (acc, item) => {
+        acc.push(item * item);
+        return acc;
+    },
+    countNames: (acc, item) => {
+        if (acc[item] === undefined) acc[item] = 0;
+        acc[item] += 1;
+        return acc;
     }
 };
