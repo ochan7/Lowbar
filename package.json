@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./spec/advanced_lowbar.spec.js",
+    "test": "mocha ./spec/*",
     "lint": "eslint ./",
     "posttest": "npm run lint",
     "precommit": "npm test"

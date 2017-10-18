@@ -54,6 +54,7 @@ describe('#first', () => {
     it('returns undefined if first argument is not of object type or string', () => {
         expect(_.first()).to.eql(undefined);
         expect(_.first(5)).to.eql(undefined);
+        expect(_.first(5,undefined)).to.equal(undefined);
     });
     it('returns the first element of an array if not given n', () => {
         expect(_.first('abc')).to.equal('a');

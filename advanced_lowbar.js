@@ -26,4 +26,11 @@ _.shuffle = (list) => {
  return newList;
 };
 
+_.invoke = (list, method, ...args) => {
+    let result = [];
+    _.each(list,  (item) => {
+        result.push(item[method](...args));
+    });
+    return result;
+};
 module.exports = _;

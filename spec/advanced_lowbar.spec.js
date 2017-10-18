@@ -18,7 +18,7 @@ describe('#once', () => {
     });
 });
 
-describe.only('#shuffle', () => {
+describe('#shuffle', () => {
     it('it is a function', () => {
         expect(_.shuffle).to.be.a('function');
     });
@@ -42,5 +42,22 @@ describe.only('#shuffle', () => {
         expect(_.shuffle(arr)).to.not.eql(arr);
         expect(_.shuffle(str)).to.not.eql(str);
         expect(_.shuffle(obj)).to.not.eql(obj);
+    });
+});
+
+describe('#invoke', () => {
+    it('it is a function', () => {
+        expect(_.invoke).to.be.a('function');
+
+    });
+    it('it returns an empty array if not given a valid list', () => {
+        expect(_.invoke()).to.eql([]);
+        expect(_.invoke(5)).to.eql([]);
+        expect(_.invoke([])).to.eql([]);
+        expect(_.invoke({})).to.eql([]);
+    });
+    it('it calls the method on each item in the list', () => {
+        expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'sort')).to.eql([[1, 5, 7], [1, 2, 3]]);
+        expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'reverse')).to.eql([[7,1,5], [1,2,3]]);
     });
 });
