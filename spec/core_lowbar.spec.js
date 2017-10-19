@@ -33,14 +33,20 @@ describe('#values', () => {
     it('it is a function', () => {
         expect(_.values).to.be.a('function');
     });
-    it('returns an empty object when not given an array or object', () => {
+    it('returns an empty array when not given an array or valid object', () => {
         expect(_.values()).to.eql([]);
         expect(_.values('hello')).to.eql([]);
         expect(_.values(null)).to.eql([]);
+        expect(_.values(5)).to.eql([]);
+        expect(_.values({})).to.eql([]);
     });
-    it('returns the array when given an array', () => {
+    it('returns the same array when given an array', () => {
         expect(_.values(['hello'])).to.eql(['hello']);
         expect(_.values([1,2,3])).to.eql([1,2,3]);
+    });
+    it('returns the same reference to the array when given an array', () => {
+        const arr = [1,2,3,4,5];
+        expect(_.values(arr)).to.equal(arr);
     });
     it('returns an array of values when given an object', () => {
         expect(_.values({0:0, 1:1})).to.eql([0,1]);
@@ -60,6 +66,11 @@ describe('#first', () => {
         expect(_.first('abc')).to.equal('a');
         expect(_.first(['a','b','c'])).to.equal('a');
     });
+    it('it has the same default behaviour as underscore', () => {
+        expect(_.first(1,1)).to.eql([]);
+        expect(_.first(true,1)).to.eql([]);
+        expect(_.first(null,1)).to.eql([]);        
+    });
     it('returns the element with a key of 0 in an object when n is not defined', () => {
         expect(_.first({0:'hello', 1: 'a', 2: 10, 3: 'b'})).to.equal('hello');
         expect(_.first({1:'hello', 0: 'a', 2: 10, 3: 'b'})).to.equal('a');
@@ -73,6 +84,7 @@ describe('#first', () => {
         expect(_.first('hello', 10)).to.eql(['h', 'e', 'l', 'l', 'o']);
         expect(_.first('hello', 1)).to.eql(['h']);
         expect(_.first('hello', 2)).to.eql(['h', 'e']);
+        expect(_.first([1,2,3], true)).to.eql([1]);
     });
 });
 

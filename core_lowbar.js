@@ -16,6 +16,7 @@ _.values = (obj) => {
 };
 
 _.first = (list, n) => {
+    if ((typeof list === 'number' || typeof list === 'boolean') && typeof n === 'number') return [];
     if (typeof list !== 'object' && typeof list !== 'string') return;
     if (!n) return list[0];
     else {

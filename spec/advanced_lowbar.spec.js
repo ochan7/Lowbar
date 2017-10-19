@@ -58,6 +58,9 @@ describe('#invoke', () => {
     });
     it('it calls the method on each item in the list', () => {
         expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'sort')).to.eql([[1, 5, 7], [1, 2, 3]]);
+        expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'pop')).to.eql([7,1]);
         expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'reverse')).to.eql([[7,1,5], [1,2,3]]);
+        expect(_.invoke([1,2,3],'toString')).to.eql(['1', '2', '3']);
     });
+    it('');
 });
