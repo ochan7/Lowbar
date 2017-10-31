@@ -33,4 +33,11 @@ _.invoke = (list, method, ...args) => {
     });
     return result;
 };
+
+_.sortBy = (list) => {
+    let newList = list;
+    if (typeof newList === 'string') newList = newList.split('');
+    else newList = _.values(newList);
+    return newList.sort();
+};
 module.exports = _;

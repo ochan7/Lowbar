@@ -48,7 +48,6 @@ describe('#shuffle', () => {
 describe('#invoke', () => {
     it('it is a function', () => {
         expect(_.invoke).to.be.a('function');
-
     });
     it('it returns an empty array if not given a valid list', () => {
         expect(_.invoke()).to.eql([]);
@@ -62,5 +61,20 @@ describe('#invoke', () => {
         expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'reverse')).to.eql([[7,1,5], [1,2,3]]);
         expect(_.invoke([1,2,3],'toString')).to.eql(['1', '2', '3']);
     });
-    it('');
+});
+
+describe.only('#sortBy', () => {
+    it('it is a function', () => {
+        expect(_.sortBy).to.be.a('function');
+    });
+    it('returns an empty array when not given valid list', () => {
+        expect(_.sortBy()).to.eql([]);
+        expect(_.sortBy(12)).to.eql([]);
+        expect(_.sortBy(false)).to.eql([]);
+    });
+    it('it returns an array of elements sorted alphabetically when given a string', () => {
+        const str = 'cba';
+        const expected = ['a', 'b', 'c'];
+        expect(_.sortBy(str)).to.eql(expected);
+    });
 });
