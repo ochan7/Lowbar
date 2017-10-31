@@ -34,10 +34,11 @@ _.invoke = (list, method, ...args) => {
     return result;
 };
 
-_.sortBy = (list, iteratee = _.identity) => {
+_.sortBy = (list, iteratee = _.identity, context = this) => {
     let newList = list;
     if (typeof newList === 'string') newList = newList.split('');
     else newList = _.values(newList);
+    iteratee = iteratee.bind(context);
     return newList.sort((a,b) => iteratee(b) < iteratee(a));
 };
 module.exports = _;

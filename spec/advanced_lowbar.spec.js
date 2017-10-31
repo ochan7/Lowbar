@@ -2,7 +2,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const _ = require(path.join(__dirname,'..','./advanced_lowbar.js'));
-
+'use strict';
 describe('#once', () => {
     it('it is a function', () => {
         expect(_.once).to.be.a('function');
@@ -91,13 +91,19 @@ describe.only('#sortBy', () => {
     it('it returns an array of sorted elements based on the iteratee', () => {
         const Nums = [1,2,3,4,5,6];
         const expectedNums = [5, 4, 6, 3, 1, 2];
-        const sinSort = num => Math.sin(num);
         const Strs = ['aaaa', 'aaa', 'aa', 'a'];
         const Obj = {0: 'aaaa', 1: 'aaa', 2: 'aa', 3: 'a'};
         const expectedStrs = ['a', 'aa', 'aaa', 'aaaa'];
-        const lenSort = str => str.length;
-        expect(_.sortBy(Nums, sinSort)).to.eql(expectedNums);
-        expect(_.sortBy(Strs, lenSort)).to.eql(expectedStrs);
-        expect(_.sortBy(Obj, lenSort)).to.eql(expectedStrs);
+        expect(_.sortBy(Nums, num => Math.sin(num))).to.eql(expectedNums);
+        expect(_.sortBy(Strs, str => str.length)).to.eql(expectedStrs);
+        expect(_.sortBy(Obj, str => str.length)).to.eql(expectedStrs);
+    });
+    it('it returns an array of sorted elements based on an iteratee using context', () => {
+        const Nums = [1,2,3,4,5,6];
+        const oneOverThis = function(num ) {
+            return this / num;
+        };
+        const expectedNums = [6,5,4,3,2,1];
+        expect(_.sortBy(Nums, oneOverThis, 1)).to.eql(expectedNums);
     });
 });
