@@ -60,6 +60,7 @@ describe('#invoke', () => {
         expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'pop')).to.eql([7,1]);
         expect(_.invoke([[5, 1, 7], [3, 2, 1]], 'reverse')).to.eql([[7,1,5], [1,2,3]]);
         expect(_.invoke([1,2,3],'toString')).to.eql(['1', '2', '3']);
+        expect(_.invoke('abc','toUpperCase')).to.eql(['A', 'B', 'C']);
     });
 });
 
@@ -76,5 +77,27 @@ describe.only('#sortBy', () => {
         const str = 'cba';
         const expected = ['a', 'b', 'c'];
         expect(_.sortBy(str)).to.eql(expected);
+    });
+    it('it returns an array of sorted elements when given an array', () => {
+        const expectedNums = [1, 2, 3, 4];
+        const Nums = [4, 3, 2, 1];
+        const expectedStr = ['a', 'b', 'c', 'd'];
+        const Str = ['d', 'c', 'b', 'a'];
+        const Obj = {a:4, b:3, c:2, d:1};
+        expect(_.sortBy(Nums)).to.eql(expectedNums);
+        expect(_.sortBy(Obj)).to.eql(expectedNums);
+        expect(_.sortBy(Str)).to.eql(expectedStr);
+    });
+    it('it returns an array of sorted elements based on the iteratee', () => {
+        const Nums = [1,2,3,4,5,6];
+        const expectedNums = [5, 4, 6, 3, 1, 2];
+        const sinSort = num => Math.sin(num);
+        const Strs = ['aaaa', 'aaa', 'aa', 'a'];
+        const Obj = {0: 'aaaa', 1: 'aaa', 2: 'aa', 3: 'a'};
+        const expectedStrs = ['a', 'aa', 'aaa', 'aaaa'];
+        const lenSort = str => str.length;
+        expect(_.sortBy(Nums, sinSort)).to.eql(expectedNums);
+        expect(_.sortBy(Strs, lenSort)).to.eql(expectedStrs);
+        expect(_.sortBy(Obj, lenSort)).to.eql(expectedStrs);
     });
 });
