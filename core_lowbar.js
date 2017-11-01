@@ -1,4 +1,5 @@
 const _ = {};
+const {binarySearch} = require('./utils');
 _.identity = (x) => {
     return x;
 };
@@ -46,29 +47,21 @@ _.each = (list, iteratee, context = this) => {
 
 _.indexOf = (list, target, isSorted = false) => {
     let result = -1;
-    if (!Array.isArray(list) && typeof list !== 'string') return result;
-    if (!isSorted) {
-        for (let i = 0; i < list.length; i++) {
+    const forLoop = (i = 0) => {
+        for (i; i < list.length; i++) {
             if (list[i] === target) return i;
         }
         return result;
+    };
+    if (!Array.isArray(list) && typeof list !== 'string') return result;
+    if (isSorted === false || isSorted === undefined) {
+        return forLoop();
     }
-    if (isSorted) {
-        let startIndex = 0,
-            stopIndex = list.length - 1,
-            middle;
-
-        while (startIndex < stopIndex) {
-            middle = Math.floor((stopIndex + startIndex) / 2);
-            if (list[middle] === target)
-                return middle;
-            if (target < list[middle]) {
-                stopIndex = middle - 1;
-            } else {
-                startIndex = middle + 1;
-            }
-        }
-        return result;
+    if (typeof isSorted === 'number') {
+        return forLoop(isSorted);
+    }
+    if (isSorted === true) {
+        return binarySearch(list, target);
     }
 };
 

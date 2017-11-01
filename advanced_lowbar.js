@@ -41,4 +41,9 @@ _.sortBy = (list, iteratee = _.identity, context = this) => {
     iteratee = iteratee.bind(context);
     return newList.sort((a,b) => iteratee(b) < iteratee(a));
 };
+
+_.zip = (...args) => {
+
+    return [...args];
+};
 module.exports = _;

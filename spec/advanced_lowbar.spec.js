@@ -64,7 +64,7 @@ describe('#invoke', () => {
     });
 });
 
-describe.only('#sortBy', () => {
+describe('#sortBy', () => {
     it('it is a function', () => {
         expect(_.sortBy).to.be.a('function');
     });
@@ -105,5 +105,21 @@ describe.only('#sortBy', () => {
         };
         const expectedNums = [6,5,4,3,2,1];
         expect(_.sortBy(Nums, oneOverThis, 1)).to.eql(expectedNums);
+    });
+});
+
+describe('#zip', () => {
+    it('it is a function', () => {
+        expect(_.zip).to.be.a('function');
+    });
+    it('it returns an empty array when not given an array or string', () => {
+        expect(_.zip()).to.eql([]);
+        expect(_.zip(false)).to.eql([]);
+        expect(_.zip(null)).to.eql([]);
+        expect(_.zip(1)).to.eql([]);
+        expect(_.zip({a:'a', b:'b'})).to.eql([]);
+    });
+    it('it returns an array when given a list of strings as arguments', () => {
+        expect(_.zip('a','b')).to.eql(['a', 'b']);
     });
 });

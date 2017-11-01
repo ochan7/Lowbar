@@ -28,4 +28,21 @@ module.exports = {
         acc.push(letter.toUpperCase());
         return acc;
     },
+    binarySearch:  (list, target) => {
+        let startIndex = 0,
+        stopIndex = list.length - 1,
+        middle;
+        while (startIndex < stopIndex) {
+            middle = Math.floor((stopIndex + startIndex) / 2);
+            if (list[middle] === target)
+            return middle;
+            if (target < list[middle]) {
+                stopIndex = middle - 1;
+            } else {
+                startIndex = middle + 1;
+            }
+        }
+        return -1;
+
+    }
 };
