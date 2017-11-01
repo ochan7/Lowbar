@@ -43,7 +43,10 @@ _.sortBy = (list, iteratee = _.identity, context = this) => {
 };
 
 _.zip = (...args) => {
-
-    return [...args];
+    return _.reduce(args, (acc, item) => {
+        if (typeof item === 'string') acc.push(item);
+        if (typeof item === 'object') acc.concat(_.values(item));
+        return acc;
+    }, []);
 };
 module.exports = _;
