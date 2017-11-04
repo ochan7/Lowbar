@@ -37,8 +37,11 @@ _.invoke = (list, method, ...args) => {
 _.sortBy = (list, iteratee = _.identity, context = this) => {
     let newList = list;
     if (typeof newList === 'string') newList = newList.split('');
+
     else newList = _.values(newList);
+
     iteratee = iteratee.bind(context);
+    
     return newList.sort((a,b) => iteratee(b) < iteratee(a));
 };
 
@@ -54,18 +57,32 @@ _.zip = (...args) => {
         if (typeof list === 'string') result[i] = list;
         
         else for (let j = 0; j < args[0].length; j++) {
+
             if (result[j]  === undefined) result[j] = [];
+
             result[j][i] = args[i][j];
         }
     });
     return result;
 };
 
-_.sortedIndex = (list, value, iteratee) => {
-   if (typeof list !== 'string' && !Array.isArray(list) || value === undefined
+_.sortedIndex = (list, value, iteratee, context = this) => {
+
+   if (
+       typeof list !== 'string' && !Array.isArray(list) 
+       || value === undefined
     ) return 0;
-     return typeof iteratee === 'string' ? binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]) :
-            typeof iteratee === 'function' ? binaryIndex(_.map(list, item => iteratee(item)), iteratee(value)) : 
+
+     return typeof iteratee === 'string' ?
+
+             binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]) :
+
+            typeof iteratee === 'function' ? 
+            
+            (iteratee = iteratee.bind(context),
+
+            binaryIndex(_.map(list, item => iteratee(item)), iteratee(value))) : 
+
             binaryIndex(list, value);
 };
 module.exports = _;

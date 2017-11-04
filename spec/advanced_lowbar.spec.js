@@ -164,4 +164,11 @@ describe.only('#sortedIndex', () => {
     it('returns an index based on a iteratee function', () => {
         expect(_.sortedIndex(['a', 'aa', 'aaa', 'aaa', 'aaaa'], 'aaa', item => item.length)).to.equal(2);
     });
+    it('returns an index based on a iteratee function using context', () => {
+        const contextTest = function (item) {
+            return this.test(item);
+        };
+        const context = {test: item => item.length};
+        expect(_.sortedIndex(['', 'b', 'cc'], 'b', contextTest, context)).to.equal(1);
+    });
 });
