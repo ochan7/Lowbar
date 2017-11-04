@@ -118,6 +118,9 @@ describe.only('#zip', () => {
         expect(_.zip(1)).to.eql([]);
         expect(_.zip({a:'a', b:'b'})).to.eql([]);
     });
+    it('it returns an array when given one string', () => {
+        expect(_.zip('ab')).to.eql([['a'], ['b']]);
+    });
     it('it returns an array when given a list of strings as arguments', () => {
         expect(_.zip('a','b')).to.eql(['a', 'b']);
     });

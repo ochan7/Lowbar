@@ -47,7 +47,9 @@ _.zip = (...args) => {
     if (!_.every(args, item => typeof item === 'string' || Array.isArray(item)
     )) return result;
 
-    _.each(args, (list, i) => {
+    if (args.length === 1 && typeof args[0] === 'string') return _.map(args[0], str => [str]);
+
+    else _.each(args, (list, i) => {
 
         if (typeof list === 'string') result[i] = list;
         
