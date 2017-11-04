@@ -56,15 +56,17 @@ module.exports = {
                 return mid;
             }
             else if (mid === list.length - 1 && list[mid] < value) {
-                return mid + 1;
+                return mid  + 1;
             }
     
-            else if (list[mid] <= value && list[mid + 1] >= value) {
+            else if (list[mid] < value && list[mid + 1] >= value) {
                 return mid + 1;
             }
             else if (list[mid] < value) min = mid + 1;
 
             else max = mid - 1;
+          
+              
         }
         return 0;
     }

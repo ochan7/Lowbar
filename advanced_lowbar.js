@@ -64,7 +64,8 @@ _.zip = (...args) => {
 _.sortedIndex = (list, value, iteratee) => {
    if (typeof list !== 'string' && !Array.isArray(list) || value === undefined
     ) return 0;
-    if (typeof iteratee === 'string') return binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]);
-    return binaryIndex(list, value);
+     return typeof iteratee === 'string' ? binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]) :
+            typeof iteratee === 'function' ? binaryIndex(_.map(list, item => iteratee(item)), iteratee(value)) : 
+            binaryIndex(list, value);
 };
 module.exports = _;

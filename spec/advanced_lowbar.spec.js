@@ -161,4 +161,7 @@ describe.only('#sortedIndex', () => {
         expect(_.sortedIndex(stooges, {name: 'larry', age: 50}, 'age')).to.equal(1);
         expect(_.sortedIndex(stooges, {name: 'larry', age: 39}, 'age')).to.equal(0);
     });
+    it('returns an index based on a iteratee function', () => {
+        expect(_.sortedIndex(['a', 'aa', 'aaa', 'aaa', 'aaaa'], 'aaa', item => item.length)).to.equal(2);
+    });
 });
