@@ -86,16 +86,21 @@ _.sortedIndex = (list, value, iteratee, context = this) => {
             binaryIndex(list, value);
 };
 
-_.flatten = (list) => {
+_.flatten = (list, shallow = false) => {
     const result = [];
     if (!Array.isArray(list) && typeof list !== 'string') return result;
+
    const innerFunction = (list) => {
        _.each(list, item => {
-           if (!Array.isArray(item)) result.push(item);
-           else return innerFunction(item);
+               if (!Array.isArray(item) ) result.push(item);
+               else {
+                    if (shallow) result.push(...item);
+                    else return innerFunction(item);
+               }
        });
        return result;
    };
+
 return innerFunction(list);
 };
 module.exports = _;

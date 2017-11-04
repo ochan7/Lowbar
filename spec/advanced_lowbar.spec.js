@@ -188,5 +188,10 @@ describe.only('#flatten', () => {
     });
     it('returns an array that is not nested when given an array', () => {
         expect(_.flatten([1, [2], [3, [[4]]]])).to.eql([1,2,3,4]);
+        expect(_.flatten([{a:1}, 'abc', ['a', [{b:2}]]])).to.eql([{a:1}, 'abc', 'a', {b: 2}]);
+    });
+    it('returns an array flattened to one level if given true for shallow argument', () => {
+        expect(_.flatten([1, [2], [3, [[4]]]], true)).to.eql( [1, 2, 3, [[4]]]);
+        expect(_.flatten([1,2,3,[4,[5,[6]]]],true)).to.eql([1,2,3,4,[5,[6]]]);
     });
 });
