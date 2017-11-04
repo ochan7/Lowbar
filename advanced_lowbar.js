@@ -1,6 +1,6 @@
 const path = require('path');
 const _ = require(path.join(__dirname, './core_lowbar'));
-
+const {binaryIndex} = require('./utils');
 _.once = (func) => {
     let flag = true;
     return () => {
@@ -61,4 +61,10 @@ _.zip = (...args) => {
     return result;
 };
 
+_.sortedIndex = (list, value) => {
+   if (typeof list !== 'string' && !Array.isArray(list) || value === undefined
+    ) return 0;
+    
+    return binaryIndex(list, value);
+};
 module.exports = _;

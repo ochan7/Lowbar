@@ -107,7 +107,7 @@ describe('#sortBy', () => {
         expect(_.sortBy(Nums, oneOverThis, 1)).to.eql(expectedNums);
     });
 });
-describe.only('#zip', () => {
+describe('#zip', () => {
     it('it is a function', () => {
         expect(_.zip).to.be.a('function');
     });
@@ -129,5 +129,26 @@ describe.only('#zip', () => {
     });
     it('returns an array with elements that are undefined when number and dimension of arrays do not match', () => {
         expect(_.zip([1,2,3], ['a', 'b'])).to.eql([[1,'a'], [2, 'b'], [3, undefined]]);
+    });
+});
+
+describe.only('#sortedIndex', () => {
+    it('it is a function', () => {
+        expect(_.sortedIndex).to.be.a('function');
+    });
+    it('it returns 0 when not given an array or string as the first argument', () => {
+        expect(_.sortedIndex({})).to.equal(0);
+        expect(_.sortedIndex(1)).to.equal(0);
+        expect(_.sortedIndex(true)).to.equal(0);
+        expect(_.sortedIndex()).to.equal(0);
+    });
+    it('it returns 0 when not given a value for the second argument', () => {
+        expect(_.sortedIndex('abc')).to.equal(0);
+        expect(_.sortedIndex([1,2,3])).to.equal(0);
+        expect(_.sortedIndex(['a','b','c'])).to.equal(0);
+    });
+    it('it returns the index of where to insert value to maintain order', () => {
+        expect(_.sortedIndex('abc', 'd')).to.equal(3);
+        expect(_.sortedIndex([1,2,3,4], 5)).to.equal(4);
     });
 });
