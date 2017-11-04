@@ -61,10 +61,10 @@ _.zip = (...args) => {
     return result;
 };
 
-_.sortedIndex = (list, value) => {
+_.sortedIndex = (list, value, iteratee) => {
    if (typeof list !== 'string' && !Array.isArray(list) || value === undefined
     ) return 0;
-    
+    if (typeof iteratee === 'string') return binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]);
     return binaryIndex(list, value);
 };
 module.exports = _;

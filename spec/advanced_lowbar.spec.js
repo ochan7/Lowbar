@@ -151,4 +151,14 @@ describe.only('#sortedIndex', () => {
         expect(_.sortedIndex('abc', 'd')).to.equal(3);
         expect(_.sortedIndex([1,2,3,4], 5)).to.equal(4);
     });
+    it('it returns 0 if the value can not be sorted amongst the items in the list', () => {
+        expect(_.sortedIndex('abc', 1)).to.equal(0);
+        expect(_.sortedIndex([1,2,3], 'a')).to.equal(0);
+    });
+    it('it returns an index based on a property', () => {
+        const stooges = [{name: 'moe', age: 40}, {name: 'curly', age: 60}];
+        expect(_.sortedIndex([[], [1], [1,1]], [1,1,1], 'length')).to.equal(3);
+        expect(_.sortedIndex(stooges, {name: 'larry', age: 50}, 'age')).to.equal(1);
+        expect(_.sortedIndex(stooges, {name: 'larry', age: 39}, 'age')).to.equal(0);
+    });
 });
