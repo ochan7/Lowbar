@@ -132,7 +132,7 @@ describe('#zip', () => {
     });
 });
 
-describe.only('#sortedIndex', () => {
+describe('#sortedIndex', () => {
     it('it is a function', () => {
         expect(_.sortedIndex).to.be.a('function');
     });
@@ -170,5 +170,23 @@ describe.only('#sortedIndex', () => {
         };
         const context = {test: item => item.length};
         expect(_.sortedIndex(['', 'b', 'cc'], 'b', contextTest, context)).to.equal(1);
+    });
+});
+
+describe.only('#flatten', () => {
+    it('it is a function', () => {
+        expect(_.flatten).to.be.a('function');
+    });
+    it('returns an empty array when not given a string or array', () => {
+        expect(_.flatten(5)).to.eql([]);
+        expect(_.flatten(false)).to.eql([]);
+        expect(_.flatten()).to.eql([]);
+        expect(_.flatten({a:[1,2,3]})).to.eql([]);
+    });
+    it('returns an array when given a string', () => {
+        expect(_.flatten('abc')).to.eql(['a','b','c']);
+    });
+    it('returns an array that is not nested when given an array', () => {
+        expect(_.flatten([1, [2], [3, [[4]]]])).to.eql([1,2,3,4]);
     });
 });

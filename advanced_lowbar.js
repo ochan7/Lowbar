@@ -41,7 +41,7 @@ _.sortBy = (list, iteratee = _.identity, context = this) => {
     else newList = _.values(newList);
 
     iteratee = iteratee.bind(context);
-    
+
     return newList.sort((a,b) => iteratee(b) < iteratee(a));
 };
 
@@ -84,5 +84,18 @@ _.sortedIndex = (list, value, iteratee, context = this) => {
             binaryIndex(_.map(list, item => iteratee(item)), iteratee(value))) : 
 
             binaryIndex(list, value);
+};
+
+_.flatten = (list) => {
+    const result = [];
+    if (!Array.isArray(list) && typeof list !== 'string') return result;
+   const innerFunction = (list) => {
+       _.each(list, item => {
+           if (!Array.isArray(item)) result.push(item);
+           else return innerFunction(item);
+       });
+       return result;
+   };
+return innerFunction(list);
 };
 module.exports = _;
