@@ -127,4 +127,7 @@ describe.only('#zip', () => {
     it('it returns an array when given a list of arrays', () => {
         expect(_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false])).to.eql([['moe', 30, true], ['larry', 40, false], ['curly', 50, false]]);
     });
+    it('returns an array with elements that are undefined when number and dimension of arrays do not match', () => {
+        expect(_.zip([1,2,3], ['a', 'b'])).to.eql([[1,'a'], [2, 'b'], [3, undefined]]);
+    });
 });
