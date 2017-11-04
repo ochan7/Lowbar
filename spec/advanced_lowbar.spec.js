@@ -107,8 +107,7 @@ describe('#sortBy', () => {
         expect(_.sortBy(Nums, oneOverThis, 1)).to.eql(expectedNums);
     });
 });
-
-describe('#zip', () => {
+describe.only('#zip', () => {
     it('it is a function', () => {
         expect(_.zip).to.be.a('function');
     });
@@ -121,5 +120,8 @@ describe('#zip', () => {
     });
     it('it returns an array when given a list of strings as arguments', () => {
         expect(_.zip('a','b')).to.eql(['a', 'b']);
+    });
+    it('it returns an array when given a list of arrays', () => {
+        expect(_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false])).to.eql([['moe', 30, true], ['larry', 40, false], ['curly', 50, false]]);
     });
 });
