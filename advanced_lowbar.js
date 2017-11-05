@@ -134,4 +134,8 @@ _.difference = (list, ...others) => {
     }
     return result;
 };
+
+_.memoize = () => {
+    return function() {};
+};
 module.exports = _;

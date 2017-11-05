@@ -227,7 +227,7 @@ describe('#intersection', () => {
     });
 });
 
-describe.only('#difference', () => {
+describe('#difference', () => {
     it('it is a function', () => {
         expect(_.difference).to.be.a('function');
     });
@@ -242,9 +242,20 @@ describe.only('#difference', () => {
         expect(_.difference('ab')).to.eql(['a', 'b']);
         expect(_.difference({a:'a', b:'b'})).to.eql(['a', 'b']);
     });
-    it('returns an array of elements from the list that are not contained in the other arrays', () => {
+    it('returns an array of elements from the list that are not contained in the other lists', () => {
         expect(_.difference({a:'a', b: 'b'}, ['a', 'b'])).to.eql([]);
         expect(_.difference('abc', ['a', 'c'])).to.eql(['b']);
         expect(_.difference(['a','b', 'c'], ['a', 'c'])).to.eql(['b']);
+        expect(_.difference(['a','b', 'c'], 'a', 'c')).to.eql(['b']);
+        expect(_.difference([1,2,3,4,5,6], [2,4,6])).to.eql([1,3,5]);
+    });
+});
+
+describe.only('#memoize', () => {
+    it('it is a function', () => {
+        expect(_.memoize).to.be.a('function');
+    });
+    it('returns a function', () => {
+        expect(_.memoize()).to.be.a('function');
     });
 });
