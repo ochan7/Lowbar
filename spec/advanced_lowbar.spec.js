@@ -203,6 +203,7 @@ describe.only('#intersection', () => {
     it('returns an array when given a string', () => {
         expect(_.intersection('a')).to.eql(['a']);
         expect(_.intersection('ab')).to.eql(['a', 'b']);
+        expect(_.intersection('abc')).to.eql(['a', 'b', 'c']);
     });
     it('returns an array when given a list of strings of length 1', () => {
         expect(_.intersection('a', 'b')).to.eql(['a', 'b']);
@@ -212,5 +213,15 @@ describe.only('#intersection', () => {
         expect(_.intersection(['a','b'], ['a', 'b'])).to.eql(['a', 'b']);
         expect(_.intersection(['a','b'], ['a'])).to.eql(['a']);
         expect(_.intersection(['a','b'], ['b'])).to.eql(['b']);
+    });
+    it('returns an array of items common to all lists when given a list of strings and arrays', () => {
+        expect(_.intersection('ab', 'ab')).to.eql(['a', 'b']);
+        expect(_.intersection('ab', 'b')).to.eql(['b']);
+        expect(_.intersection('ab', 'a')).to.eql(['a']);
+        const letters = ['a', 'b', 'c'];
+        expect(_.intersection(letters, ['c'])).to.eql(['c']);
+        expect(_.intersection(letters, ['c', 'b'])).to.eql(['b', 'c']);
+        expect(_.intersection(letters, 'bc')).to.eql(['b', 'c']);
+        expect(_.intersection(letters, 'abc')).to.eql(letters);
     });
 });
