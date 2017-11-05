@@ -272,5 +272,20 @@ describe.only('#memoize', () => {
         expect(memSum.cache).to.eql({
             '[1,2]': 3
         });
+        memSum(2,3);
+        expect(memSum.cache).to.eql({
+            '[1,2]':3,
+            '[2,3]':5
+        });
+    });
+    it('calls the passed function only once if given the same arguments', () => {
+        const spy = sinon.spy(sum);
+        const memSumSpy = _.memoize(spy);
+        memSumSpy(1,2);
+        memSumSpy(1,2);
+        expect(spy.callCount).to.equal(1);
+        expect(memSumSpy.cache).to.eql({
+            '[1,2]': 3
+        });
     });
 });
