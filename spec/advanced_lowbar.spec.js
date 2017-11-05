@@ -284,8 +284,28 @@ describe.only('#memoize', () => {
         memSumSpy(1,2);
         memSumSpy(1,2);
         expect(spy.callCount).to.equal(1);
+        expect(spy.calledWithExactly(1,2)).to.be.true;
         expect(memSumSpy.cache).to.eql({
             '[1,2]': 3
+        });
+    });
+    it('takes a second argument that changes how the keys in the cache are made', () => {
+        const hasher = (...args) => {
+            let result = '';
+            args.forEach(arg => {
+                result += `-${arg}`;
+            });
+            return result;
+        };
+        const spy = sinon.spy(hasher);
+        const memHashSpy = _.memoize(sum, spy);
+        memHashSpy(1,1);
+        memHashSpy(1,2);
+        memHashSpy(1,2);
+        expect(spy.callCount).to.be.equal(3);
+        expect(memHashSpy.cache).to.eql({
+            '-1-1':2,
+            '-1-2':3
         });
     });
 });

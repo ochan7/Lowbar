@@ -135,10 +135,10 @@ _.difference = (list, ...others) => {
     return result;
 };
 
-_.memoize = (func) => {
+_.memoize = (func, hasher) => {
     const cache = {};
     const memoize = (...args) => {
-        const idx = JSON.stringify(args);
+        const idx = hasher ? hasher(...args) : JSON.stringify(args);
         if (cache[idx] === undefined) {
             cache[idx] = func(...args);
         }
