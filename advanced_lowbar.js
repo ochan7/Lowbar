@@ -136,8 +136,15 @@ _.difference = (list, ...others) => {
 };
 
 _.memoize = (func) => {
-    return function(...args) {
-        return func(...args);
+    const cache = {};
+    const memoize = (...args) => {
+        const idx = JSON.stringify(args);
+        if (cache[idx] === undefined) {
+            cache[idx] = func(...args);
+        }
+        return cache[idx];
     };
+    memoize.cache = cache;
+    return memoize;
 };
 module.exports = _;

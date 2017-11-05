@@ -2,6 +2,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const _ = require(path.join(__dirname,'..','./advanced_lowbar.js'));
+const {sum} = require('../utils');
 'use strict';
 describe('#once', () => {
     it('it is a function', () => {
@@ -262,8 +263,14 @@ describe.only('#memoize', () => {
         const hello = () => 'hello';
         const memHello = _.memoize(hello);
         expect(memHello()).to.equal('hello');
-        const add = (a,b) => a + b;
-        const memAdd = _.memoize(add);
-        expect(memAdd(1,2)).to.equal(3);
+        const memSum = _.memoize(sum);
+        expect(memSum(1,2)).to.equal(3);
+    });
+    it('caches the result of previously calculated functions', () => {
+        const memSum = _.memoize(sum);
+        memSum(1,2);
+        expect(memSum.cache).to.eql({
+            '[1,2]': 3
+        });
     });
 });
