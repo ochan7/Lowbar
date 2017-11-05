@@ -196,7 +196,7 @@ describe('#flatten', () => {
     });
 });
 
-describe.only('#intersection', () => {
+describe('#intersection', () => {
     it('it is a function', () => {
         expect(_.intersection).to.be.a('function');
     });
@@ -223,5 +223,28 @@ describe.only('#intersection', () => {
         expect(_.intersection(letters, ['c', 'b'])).to.eql(['b', 'c']);
         expect(_.intersection(letters, 'bc')).to.eql(['b', 'c']);
         expect(_.intersection(letters, 'abc')).to.eql(letters);
+        expect(_.intersection([1,2,3,4], [1,2,3])).to.eql([1,2,3]);
+    });
+});
+
+describe.only('#difference', () => {
+    it('it is a function', () => {
+        expect(_.difference).to.be.a('function');
+    });
+    it('returns an empty array when not given an object or string', () => {
+        expect(_.difference(1)).to.eql([]);
+        expect(_.difference(null)).to.eql([]);
+        expect(_.difference(undefined)).to.eql([]);
+        expect(_.difference(true)).to.eql([]);
+    });
+    it('returns an array of elements if given an object or string', () => {
+        expect(_.difference('a')).to.eql(['a']);
+        expect(_.difference('ab')).to.eql(['a', 'b']);
+        expect(_.difference({a:'a', b:'b'})).to.eql(['a', 'b']);
+    });
+    it('returns an array of elements from the list that are not contained in the other arrays', () => {
+        expect(_.difference({a:'a', b: 'b'}, ['a', 'b'])).to.eql([]);
+        expect(_.difference('abc', ['a', 'c'])).to.eql(['b']);
+        expect(_.difference(['a','b', 'c'], ['a', 'c'])).to.eql(['b']);
     });
 });

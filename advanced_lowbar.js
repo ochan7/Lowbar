@@ -118,4 +118,20 @@ _.intersection = (...list) => {
     
     return result;
 };
+
+_.difference = (list, ...others) => {
+    const result = [], mappedList = _.map(list);
+    if (typeof list !== 'object' && typeof list !== 'string' || list === null) return result;
+
+    if (others.length === 0) return mappedList;
+
+    else {
+        const mergeOthers = _.uniq(_.flatten(others));
+        _.each(mappedList, item => {
+            if (!_.contains(mergeOthers, item)) result.push(item);
+        });
+
+    }
+    return result;
+};
 module.exports = _;
