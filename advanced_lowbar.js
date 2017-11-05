@@ -135,7 +135,9 @@ _.difference = (list, ...others) => {
     return result;
 };
 
-_.memoize = () => {
-    return function() {};
+_.memoize = (func) => {
+    return function(...args) {
+        return func(...args);
+    };
 };
 module.exports = _;
