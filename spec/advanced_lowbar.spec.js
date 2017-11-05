@@ -173,7 +173,7 @@ describe('#sortedIndex', () => {
     });
 });
 
-describe.only('#flatten', () => {
+describe('#flatten', () => {
     it('it is a function', () => {
         expect(_.flatten).to.be.a('function');
     });
@@ -193,5 +193,24 @@ describe.only('#flatten', () => {
     it('returns an array flattened to one level if given true for shallow argument', () => {
         expect(_.flatten([1, [2], [3, [[4]]]], true)).to.eql( [1, 2, 3, [[4]]]);
         expect(_.flatten([1,2,3,[4,[5,[6]]]],true)).to.eql([1,2,3,4,[5,[6]]]);
+    });
+});
+
+describe.only('#intersection', () => {
+    it('it is a function', () => {
+        expect(_.intersection).to.be.a('function');
+    });
+    it('returns an array when given a string', () => {
+        expect(_.intersection('a')).to.eql(['a']);
+        expect(_.intersection('ab')).to.eql(['a', 'b']);
+    });
+    it('returns an array when given a list of strings of length 1', () => {
+        expect(_.intersection('a', 'b')).to.eql(['a', 'b']);
+    });
+    it('returns an array of items that occur in every list', () => {
+        expect(_.intersection(['a','b'], ['a'])).to.eql(['a']);
+        expect(_.intersection(['a','b'], ['a', 'b'])).to.eql(['a', 'b']);
+        expect(_.intersection(['a','b'], ['a'])).to.eql(['a']);
+        expect(_.intersection(['a','b'], ['b'])).to.eql(['b']);
     });
 });

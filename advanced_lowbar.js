@@ -103,4 +103,19 @@ _.flatten = (list, shallow = false) => {
 
 return innerFunction(list);
 };
+
+_.intersection = (...list) => {
+    const result = [];
+    if (list.length === 1 && typeof list[0] === 'string') return _.map(list[0]);
+    if (_.every(list, item => {
+        return typeof item === 'string' && item.length === 1;
+    })) return list;
+    _.each(list[0], item => {
+       if ( _.every(list, (part) => {
+            return _.contains(part, item);
+        })) result.push(item);
+    });
+    
+    return result;
+};
 module.exports = _;
