@@ -308,4 +308,20 @@ describe.only('#memoize', () => {
             '-1-2':3
         });
     });
+    it('returns the result of a function with repetitive calculations faster than a non-memoized function', () => {
+        let  fib = n =>
+              n <= 1 ? 1 : fib(n - 2) + fib(n - 1);
+        const slowBegin = Date.now();
+        fib(40);
+        const slowFibTime = Date.now() - slowBegin;
+
+        fib = _.memoize(fib);
+        const fastBegin = Date.now();
+        fib(40);
+        const fastFibTime = Date.now() - fastBegin;
+
+        expect(fastFibTime).to.be.lessThan(slowFibTime);
+        expect(fastFibTime).to.be.lessThan(10);
+        expect(slowFibTime).to.be.greaterThan(1000);
+    });
 });
