@@ -369,7 +369,7 @@ describe.only('#where', () => {
         expect(_.where('a')).to.eql(['a']);
         expect(_.where('ab')).to.eql(['a','b']);
     });
-    it('returns an array from the list containing the properties passed', () => {
+    it('returns an array from the array containing the properties passed', () => {
         const list = [
             {
                 name: 'batman',
@@ -409,5 +409,10 @@ describe.only('#where', () => {
             age: 29,
             gender: 'male'
         }]);
+    });
+    it('returns an array from the string containing the properties passed', () => {
+        expect(_.where('abc', {0: 'a'})).to.eql(['a']);
+        expect(_.where('abc', {0: 'b'})).to.eql(['b']);
+        expect(_.where('abc', {0: 'c'})).to.eql(['c']);
     });
 });
