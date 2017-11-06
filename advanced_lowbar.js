@@ -1,6 +1,6 @@
 const path = require('path');
 const _ = require(path.join(__dirname, './core_lowbar'));
-const {binaryIndex} = require('./utils');
+const { binaryIndex } = require('./utils');
 _.once = (func) => {
     let flag = true;
     return () => {
@@ -12,23 +12,23 @@ _.once = (func) => {
 };
 
 _.shuffle = (list) => {
- let newList = [];
- if (typeof list === 'string') newList = list.split('');
- if (typeof list === 'object') newList = _.values(list);
- newList = newList.slice();
- let n = newList.length, index, placeholder;
+    let newList = [];
+    if (typeof list === 'string') newList = list.split('');
+    if (typeof list === 'object') newList = _.values(list);
+    newList = newList.slice();
+    let n = newList.length, index, placeholder;
     while (n) {
         index = Math.floor(Math.random() * n--);
         placeholder = newList[n];
         newList[n] = newList[index];
         newList[index] = placeholder;
     }
- return newList;
+    return newList;
 };
 
 _.invoke = (list, method, ...args) => {
     let result = [];
-    _.each(list,  (item) => {
+    _.each(list, (item) => {
         result.push(item[method](...args));
     });
     return result;
@@ -42,7 +42,7 @@ _.sortBy = (list, iteratee = _.identity, context = this) => {
 
     iteratee = iteratee.bind(context);
 
-    return newList.sort((a,b) => iteratee(b) < iteratee(a));
+    return newList.sort((a, b) => iteratee(b) < iteratee(a));
 };
 
 _.zip = (...args) => {
@@ -55,10 +55,10 @@ _.zip = (...args) => {
     else _.each(args, (list, i) => {
 
         if (typeof list === 'string') result[i] = list;
-        
+
         else for (let j = 0; j < args[0].length; j++) {
 
-            if (result[j]  === undefined) result[j] = [];
+            if (result[j] === undefined) result[j] = [];
 
             result[j][i] = args[i][j];
         }
@@ -68,20 +68,20 @@ _.zip = (...args) => {
 
 _.sortedIndex = (list, value, iteratee, context = this) => {
 
-   if (
-       typeof list !== 'string' && !Array.isArray(list) 
-       || value === undefined
+    if (
+        typeof list !== 'string' && !Array.isArray(list)
+        || value === undefined
     ) return 0;
 
-     return typeof iteratee === 'string' ?
+    return typeof iteratee === 'string' ?
 
-             binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]) :
+        binaryIndex(_.map(list, item => item[iteratee]), value[iteratee]) :
 
-            typeof iteratee === 'function' ? 
-            
+        typeof iteratee === 'function' ?
+
             (iteratee = iteratee.bind(context),
 
-            binaryIndex(_.map(list, item => iteratee(item)), iteratee(value))) : 
+                binaryIndex(_.map(list, item => iteratee(item)), iteratee(value))) :
 
             binaryIndex(list, value);
 };
@@ -90,18 +90,18 @@ _.flatten = (list, shallow = false) => {
     const result = [];
     if (!Array.isArray(list) && typeof list !== 'string') return result;
 
-   const innerFunction = (list) => {
-       _.each(list, item => {
-               if (!Array.isArray(item) ) result.push(item);
-               else {
-                    if (shallow) result.push(...item);
-                    else return innerFunction(item);
-               }
-       });
-       return result;
-   };
+    const innerFunction = (list) => {
+        _.each(list, item => {
+            if (!Array.isArray(item)) result.push(item);
+            else {
+                if (shallow) result.push(...item);
+                else return innerFunction(item);
+            }
+        });
+        return result;
+    };
 
-return innerFunction(list);
+    return innerFunction(list);
 };
 
 _.intersection = (...list) => {
@@ -111,11 +111,11 @@ _.intersection = (...list) => {
     })) return list;
 
     _.each(list[0], item => {
-       if ( _.every(list, (part) => {
+        if (_.every(list, (part) => {
             return _.contains(part, item);
         })) result.push(item);
     });
-    
+
     return result;
 };
 
@@ -149,8 +149,8 @@ _.memoize = (func, hasher) => {
 };
 
 _.delay = (func, wait, ...args) => {
-    
-    return wait ? setTimeout(func, wait,...args) : func(...args);
+
+    return wait ? setTimeout(func, wait, ...args) : func(...args);
 };
 
 
@@ -159,25 +159,27 @@ _.where = (list, properties) => {
     return _.filter(list, item => {
         let flag = true;
         for (let key in properties) {
-            if (item[key] !== properties[key]) flag = false; 
+            if (item[key] !== properties[key]) flag = false;
         }
         return flag;
     });
 };
 
-_.throttle = (func, wait = 0, options = {leading: false}) => {
+_.throttle = (func, wait = 0, options = {leading: true}) => {
     const begin = Date.now();
     let callCount = 0;
     let loadBegin;
     let loadFlag = true;
-    const caller =  function (...args) {
+    const caller = function (...args) {
+
         if (callCount === 0) {
             loadBegin = Date.now();
             callCount++;
-            return func(...args);
+            return options.leading === false ? _.delay(func, wait, ...args) : func(...args);
         }
-        else if (callCount > 0) {
-            if (options.leading === true && loadFlag) {
+
+        if (callCount > 0) {
+            if ((options.leading === true || options.trailing === true) && loadFlag) {
                 loadFlag = false;
                 return _.delay(func, wait - Date.now() - loadBegin, ...args);
             }
