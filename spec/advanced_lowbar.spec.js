@@ -252,7 +252,7 @@ describe('#difference', () => {
     });
 });
 
-describe.only('#memoize', () => {
+describe('#memoize', () => {
     it('it is a function', () => {
         expect(_.memoize).to.be.a('function');
     });
@@ -311,6 +311,7 @@ describe.only('#memoize', () => {
     it('returns the result of a function with repetitive calculations faster than a non-memoized function', () => {
         let  fib = n =>
               n <= 1 ? 1 : fib(n - 2) + fib(n - 1);
+
         const slowBegin = Date.now();
         fib(40);
         const slowFibTime = Date.now() - slowBegin;
@@ -323,5 +324,24 @@ describe.only('#memoize', () => {
         expect(fastFibTime).to.be.lessThan(slowFibTime);
         expect(fastFibTime).to.be.lessThan(10);
         expect(slowFibTime).to.be.greaterThan(1000);
+    });
+});
+
+describe.only('#delay', () => {
+    it('it is a function', () => {
+        expect(_.delay).to.be.a('function');
+    });
+    it('it calls the function passed to it', () => {
+        const spy = sinon.spy(console.log);
+        _.delay(spy);
+        expect(spy.calledOnce).to.be.true;
+    });
+    it('it calls the function after a specified amount of time', () => {
+        const clock = sinon.useFakeTimers();
+        const spy = sinon.spy(console.log);
+        _.delay(spy, 100);
+        expect(spy.callCount).to.equal(0);
+        clock.tick(100);
+        expect(spy.calledOnce).to.be.true;
     });
 });

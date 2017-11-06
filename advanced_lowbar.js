@@ -147,4 +147,9 @@ _.memoize = (func, hasher) => {
     memoize.cache = cache;
     return memoize;
 };
+
+_.delay = (func, wait) => {
+
+    return wait ? setTimeout(func, wait) : func();
+};
 module.exports = _;
