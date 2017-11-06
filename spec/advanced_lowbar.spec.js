@@ -438,12 +438,22 @@ describe.only('#throttle', () => {
         throttleSpy(1,2);
         throttleSpy(1,2);
         throttleSpy(1,2);
-        expect(spy.calledOnce).to.be.true;
+        expect(spy.callCount).to.equal(1);
         clock.tick(101);
         throttleSpy(1,2);
         throttleSpy(1,2);
         throttleSpy(1,2);
-        expect(spy.calledTwice).to.be.true;
+        expect(spy.callCount).to.equal(2);
         clock.restore();
+    });
+    it('it returns the function after the wait period if called multiple times during wait period', () => {
+        const spy = sinon.spy(sum);
+        const clock = sinon.useFakeTimers();
+        const throttleSpy = _.throttle(spy,100, {leading: true});
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        expect(spy.callCount).to.equal(1);
+        clock.tick(102);
+        expect(spy.callCount).to.equal(2);
     });
 });

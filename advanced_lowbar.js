@@ -165,15 +165,27 @@ _.where = (list, properties) => {
     });
 };
 
-_.throttle = (func, wait = 0) => {
+_.throttle = (func, wait = 0, options = {leading: false}) => {
     const begin = Date.now();
     let callCount = 0;
+    let loadBegin;
+    let loadFlag = true;
     const caller =  function (...args) {
-        if (callCount === 0) { 
+        if (callCount === 0) {
+            loadBegin = Date.now();
             callCount++;
             return func(...args);
         }
-        if (Date.now() - begin > wait) callCount = 0;
+        else if (callCount > 0) {
+            if (options.leading === true && loadFlag) {
+                loadFlag = false;
+                return _.delay(func, wait - Date.now() - loadBegin, ...args);
+            }
+        }
+        if (Date.now() - begin > wait) {
+            callCount = 0;
+            loadFlag = true;
+        }
     };
     return caller;
 };
