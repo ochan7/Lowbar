@@ -148,8 +148,8 @@ _.memoize = (func, hasher) => {
     return memoize;
 };
 
-_.delay = (func, wait) => {
+_.delay = (func, wait, ...args) =>
 
-    return wait ? setTimeout(func, wait) : func();
-};
+     wait ? setTimeout(func, wait,...args) : func(...args);
+
 module.exports = _;

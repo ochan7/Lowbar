@@ -344,4 +344,11 @@ describe.only('#delay', () => {
         clock.tick(100);
         expect(spy.calledOnce).to.be.true;
     });
+    it('it calls a function with arguments', () => {
+        const clock = sinon.useFakeTimers();
+        const spy = sinon.spy(sum);
+        _.delay(spy, 100, 1, 2);
+        clock.tick(100);
+        expect(spy.calledWithExactly(1,2)).to.be.true;
+    });
 });
