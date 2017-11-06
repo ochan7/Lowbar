@@ -356,7 +356,7 @@ describe('#memoize', () => {
     });
 });
 
-describe.only('#where', () => {
+describe('#where', () => {
     it('it is a function', () => {
         expect(_.where).to.be.a('function');
     });
@@ -414,5 +414,36 @@ describe.only('#where', () => {
         expect(_.where('abc', {0: 'a'})).to.eql(['a']);
         expect(_.where('abc', {0: 'b'})).to.eql(['b']);
         expect(_.where('abc', {0: 'c'})).to.eql(['c']);
+    });
+});
+
+describe.only('#throttle', () => {
+    it('it is a function', () => {
+        expect(_.throttle).to.be.a('function');
+    });
+    it('it returns a function', () => {
+        expect(_.throttle()).to.be.a('function');
+    });
+    it('it returns a function that behaves like the function passed to it', () => {
+        const throttleSum = _.throttle(sum);
+        expect(throttleSum(1,2)).to.equal(3);
+    });
+    it('it returns a function that calls the passed function once every wait period', () => {
+        const spy = sinon.spy(sum);
+        const clock = sinon.useFakeTimers();
+        const throttleSpy = _.throttle(spy, 100);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        expect(spy.calledOnce).to.be.true;
+        clock.tick(101);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
+        expect(spy.calledTwice).to.be.true;
+        clock.restore();
     });
 });

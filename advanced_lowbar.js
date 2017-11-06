@@ -164,4 +164,17 @@ _.where = (list, properties) => {
         return flag;
     });
 };
+
+_.throttle = (func, wait = 0) => {
+    const begin = Date.now();
+    let callCount = 0;
+    const caller =  function (...args) {
+        if (callCount === 0) { 
+            callCount++;
+            return func(...args);
+        }
+        if (Date.now() - begin > wait) callCount = 0;
+    };
+    return caller;
+};
 module.exports = _;
