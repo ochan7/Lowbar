@@ -356,3 +356,58 @@ describe('#memoize', () => {
     });
 });
 
+describe.only('#where', () => {
+    it('it is a function', () => {
+        expect(_.where).to.be.a('function');
+    });
+    it('returns an empty array when not an object or string', () => {
+        expect(_.where()).to.eql([]);
+        expect(_.where(5)).to.eql([]);
+        expect(_.where(true)).to.eql([]);
+    });
+    it('returns an array when given a string', () => {
+        expect(_.where('a')).to.eql(['a']);
+        expect(_.where('ab')).to.eql(['a','b']);
+    });
+    it('returns an array from the list containing the properties passed', () => {
+        const list = [
+            {
+                name: 'batman',
+                age: 34,
+                gender: 'male'
+            },
+            {
+                name: 'superman',
+                age: 29,
+                gender: 'male'
+            },
+            {
+                name: 'wonderwoman',
+                age: 31,
+                gender: 'female'
+            },
+            {
+                name: 'catwoman',
+                age: 25,
+                gender: 'female'
+            }
+        ];
+        expect(_.where(list, {gender: 'female'})).to.eql([
+            {
+                name: 'wonderwoman',
+                age: 31,
+                gender: 'female'
+            },
+            {
+                name: 'catwoman',
+                age: 25,
+                gender: 'female'
+            }
+        ]);
+        expect(_.where(list, {age: 29})).to.eql([{
+            name:'superman',
+            age: 29,
+            gender: 'male'
+        }]);
+    });
+});
