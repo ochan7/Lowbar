@@ -191,4 +191,15 @@ _.throttle = (func, wait = 0, options = {leading: true}) => {
     };
     return caller;
 };
+
+_.partial = (func, ...partials) => {
+    return (...args) => {
+    if (partials.length === 0) return func(...args);
+    const newArgs = _.map(partials, arg => {
+        if (arg === _) return args.shift();
+        return arg;
+    });
+    return func(...newArgs, ...args);
+    };
+};
 module.exports = _;

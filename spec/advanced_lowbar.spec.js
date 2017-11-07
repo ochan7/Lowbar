@@ -417,7 +417,7 @@ describe('#where', () => {
     });
 });
 
-describe.only('#throttle', () => {
+describe('#throttle', () => {
     beforeEach(() => {
         this.clock = sinon.useFakeTimers();
          this.spy = sinon.spy(sum);
@@ -430,6 +430,8 @@ describe.only('#throttle', () => {
     });
     it('it returns a function', () => {
         expect(_.throttle()).to.be.a('function');
+        expect(_.throttle(5)).to.be.a('function');
+        expect(_.throttle('hello')).to.be.a('function');
     });
     it('it returns a function that behaves like the function passed to it', () => {
         const throttleSum = _.throttle(sum);
@@ -476,5 +478,27 @@ describe.only('#throttle', () => {
         expect(this.spy.callCount).to.equal(0);
         this.clock.tick(120);
         expect(this.spy.callCount).to.equal(1);
+        this.clock.restore();
+    });
+});
+
+describe.only('#partial', () => {
+    it('it is a function', () => {
+        expect(_.partial).to.be.a('function');
+    });
+    it('it returns a function', () => {
+        expect(_.partial()).to.be.a('function');
+    });
+    it('it returns a function that behaves like the function passed to it', () => {
+        const partialSum = _.partial(sum);
+        expect(partialSum(1,2)).to.equal(3);
+    });
+    it('it returns a function with the arguments partially filled in', () => {
+        const sum5 = _.partial(sum, 5, _);
+        const sum4 = _.partial(sum, _, 4);
+        const sum4And5 = _.partial(sum, 5, 4);
+        expect(sum5(4)).to.equal(9);
+        expect(sum4(5)).to.equal(9);
+        expect(sum4And5(9,9)).to.equal(9);
     });
 });
