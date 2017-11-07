@@ -494,11 +494,20 @@ describe.only('#partial', () => {
         expect(partialSum(1,2)).to.equal(3);
     });
     it('it returns a function with the arguments partially filled in', () => {
-        const sum5 = _.partial(sum, 5, _);
+        const sum5 = _.partial(sum, 5);
         const sum4 = _.partial(sum, _, 4);
         const sum4And5 = _.partial(sum, 5, 4);
         expect(sum5(4)).to.equal(9);
         expect(sum4(5)).to.equal(9);
         expect(sum4And5(9,9)).to.equal(9);
+    });
+    it('it does not change the "this" value of the function', () => {
+        const context = {greeting: 'hello'};
+        let hello = function(str)  {
+            return `${this.greeting} ${str}`;
+        };
+        hello = hello.bind(context);
+        const partialHello = _.partial(hello);
+        expect(partialHello('olie')).to.equal('hello olie');
     });
 });

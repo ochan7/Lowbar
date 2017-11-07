@@ -193,7 +193,8 @@ _.throttle = (func, wait = 0, options = {leading: true}) => {
 };
 
 _.partial = (func, ...partials) => {
-    return (...args) => {
+    const innerFunction =  (...args) => {
+        
     if (partials.length === 0) return func(...args);
     const newArgs = _.map(partials, arg => {
         if (arg === _) return args.shift();
@@ -201,5 +202,6 @@ _.partial = (func, ...partials) => {
     });
     return func(...newArgs, ...args);
     };
+    return innerFunction;
 };
 module.exports = _;
