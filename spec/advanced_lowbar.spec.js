@@ -482,7 +482,7 @@ describe('#throttle', () => {
     });
 });
 
-describe.only('#partial', () => {
+describe('#partial', () => {
     it('it is a function', () => {
         expect(_.partial).to.be.a('function');
     });
