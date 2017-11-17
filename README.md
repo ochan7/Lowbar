@@ -1,8 +1,8 @@
-#Lowbar
+# Lowbar
 ---
 My personal project to make a clone of some popular methods from [Underscore](http://underscorejs.org/), a commonly used bundle of functions for Javascript.
 
-##Setup and Installation
+## Setup and Installation
 ---
 1. Make sure that you have version 7 or above of node. Open your terminal and type and run.
 ```node -v```
@@ -60,6 +60,8 @@ The following methods have been implemented
 - throttle
 - partial
 
-##Author
+---
+
+## Author
 
 Olie Chan 
