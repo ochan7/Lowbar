@@ -59,3 +59,7 @@ The following methods have been implemented
 - where
 - throttle
 - partial
+
+##Author
+
+Olie Chan 
