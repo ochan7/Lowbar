@@ -417,7 +417,7 @@ describe('#where', () => {
     });
 });
 
-describe.only('#throttle', () => {
+describe('#throttle', () => {
     beforeEach(() => {
         this.clock = sinon.useFakeTimers();
          this.spy = sinon.spy(sum);

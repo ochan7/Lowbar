@@ -167,10 +167,7 @@ _.throttle = (func, wait = 0, options = {leading: true}) => {
 _.partial = (func, ...partials) => {
     const innerFunction =  (...args) => {
     if (partials.length === 0) return func(...args);
-    const newArgs = _.map(partials, arg => {
-        if (arg === _) return args.shift();
-        return arg;
-    });
+    const newArgs = _.map(partials, arg => arg === _ ?  args.shift() : arg );
     return func(...newArgs, ...args);
     };
     return innerFunction;
