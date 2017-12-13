@@ -417,7 +417,7 @@ describe('#where', () => {
     });
 });
 
-describe('#throttle', () => {
+describe.only('#throttle', () => {
     beforeEach(() => {
         this.clock = sinon.useFakeTimers();
          this.spy = sinon.spy(sum);
@@ -453,32 +453,41 @@ describe('#throttle', () => {
     it('it calls the function after the wait period if called multiple times during wait period if given option leading as true', () => {
         const throttleSpy = _.throttle(this.spy,100, {leading: true});
         throttleSpy(1,2);
-        this.clock.tick(95);
+        throttleSpy(1,2);
+        throttleSpy(1,2);
         throttleSpy(1,2);
         throttleSpy(1,2);
         throttleSpy(1,2);
         expect(this.spy.callCount).to.equal(1);
-        this.clock.tick(200);
+        this.clock.tick(101);
         expect(this.spy.callCount).to.equal(2);
     });
-    it('it calls the function once at the beginning of the next  wait period when called multiple times if given option leading as false', () => {
+    it('calls the function once at the end of the wait period when called with "leading set to false" and any calls before the wait period has finished will not be called during the next wait period', () => {
         const throttleSpy = _.throttle(this.spy, 100, {leading: false});
         throttleSpy(1,1);
-        throttleSpy(1,1);
-        throttleSpy(1,1);
         expect(this.spy.callCount).to.equal(0);
-        this.clock.tick(120);
+        throttleSpy(1,1);
+        throttleSpy(1,1);
+        this.clock.tick(300);
         expect(this.spy.callCount).to.equal(1);
     });
-    it('it calls the function once at the beginning of the next wait period when called multiple times if given option trailing as true', () => {
-        const throttleSpy = _.throttle(this.spy, 100, {leading: false});
+    it('calls the function once at the beginning of the wait period and then called again when the wait period has finished when called before the wait period has ended when "trailing set to true"', () => {
+        const throttleSpy = _.throttle(this.spy, 100, {trailing: true});
         throttleSpy(1,1);
         throttleSpy(1,1);
         throttleSpy(1,1);
-        expect(this.spy.callCount).to.equal(0);
-        this.clock.tick(120);
         expect(this.spy.callCount).to.equal(1);
-        this.clock.restore();
+        this.clock.tick(300);
+        expect(this.spy.callCount).to.equal(2);
+    });
+    it('calls the function once at the beginning of the wait period and any calls before the wait period has ended will not be called when the wait period has finished when "trailing set to false"', () => {
+        const throttleSpy = _.throttle(this.spy, 100, {trailing: false});
+        throttleSpy(1,1);
+        expect(this.spy.callCount).to.equal(1);
+        throttleSpy(1,1);
+        throttleSpy(1,1);
+        this.clock.tick(300);
+        expect(this.spy.callCount).to.equal(1);
     });
 });
 

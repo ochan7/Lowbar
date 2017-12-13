@@ -141,23 +141,22 @@ _.where = (list, properties) => {
 };
 
 _.throttle = (func, wait = 0, options = {leading: true}) => {
-    const begin = Date.now();
-    let callCount = 0;
-    let loadBegin;
-    let loadFlag = true;
+    let callCount = 0,
+        loadBegin,
+        loadFlag = true;
     const caller = function (...args) {
         if (callCount === 0) {
             loadBegin = Date.now();
             callCount++;
             return options.leading === false ? _.delay(func, wait, ...args) : func(...args);
         }
-        if (callCount > 0) {
-            if ((options.leading === true || options.trailing === true) && loadFlag) {
+        if (callCount > 0 && loadFlag) {
+            if (options.leading === true || options.trailing === true) {
                 loadFlag = false;
                 return _.delay(func, wait - Date.now() - loadBegin, ...args);
             }
         }
-        if (Date.now() - begin > wait) {
+        if (Date.now() - loadBegin > wait) {
             callCount = 0;
             loadFlag = true;
         }
